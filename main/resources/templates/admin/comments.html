@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评论管理 - 管理后台</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 30px;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(102, 126, 234, 0.10);
+            overflow: hidden;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 14px 10px;
+            text-align: center;
+        }
+
+        .admin-table th {
+            background: linear-gradient(90deg, #667eea 60%, #764ba2 100%);
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .admin-table tr {
+            transition: background 0.2s;
+        }
+
+        .admin-table tbody tr:hover {
+            background: #f3f6fd;
+        }
+
+        .admin-table td {
+            border-bottom: 1.5px solid #f1f1f1;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-actions .btn {
+            margin: 0 3px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .filter-row input {
+            padding: 6px 10px;
+            border: 1.5px solid #e9ecef;
+            border-radius: 6px;
+        }
+
+        .filter-row input:focus {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .success-message,
+        .error-message {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .comment-content {
+            max-width: 320px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">管理后台</div>
+            <nav class="nav-links">
+                <a href="/">返回首页</a>
+                <a href="/admin/users" class="btn btn-warning">用户管理</a>
+                <a href="/admin/comments" class="btn btn-warning">评论管理</a>
+            </nav>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="admin-header">
+            <h2>评论管理</h2>
+            <div class="filter-row">
+                <input type="number" id="filterUserId" placeholder="按用户ID筛选" style="width:120px;">
+                <input type="number" id="filterDishId" placeholder="按菜品ID筛选" style="width:120px;">
+                <button class="btn btn-primary" onclick="loadComments()">筛选</button>
+                <button class="btn btn-secondary" onclick="resetFilter()">重置</button>
+            </div>
+        </div>
+        <div id="message" class="success-message"></div>
+        <table class="admin-table" id="commentTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户ID</th>
+                    <th>菜品ID</th>
+                    <th>评分</th>
+                    <th>内容</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="commentTableBody">
+                <!-- 评论数据 -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let comments = [];
+
+        window.onload = function () {
+            loadComments();
+        };
+
+        // 加载评论列表
+        async function loadComments() {
+            const userId = document.getElementById('filterUserId').value.trim();
+            const dishId = document.getElementById('filterDishId').value.trim();
+            let url = '/api/admin/comments';
+            const params = [];
+            if (userId) params.push('userId=' + encodeURIComponent(userId));
+            if (dishId) params.push('dishId=' + encodeURIComponent(dishId));
+            if (params.length > 0) url += '?' + params.join('&');
+            const res = await fetch(url);
+            comments = await res.json();
+            renderCommentTable();
+        }
+
+        function renderCommentTable() {
+            const tbody = document.getElementById('commentTableBody');
+            tbody.innerHTML = '';
+            if (!comments.length) {
+                tbody.innerHTML = '<tr><td colspan="7">暂无评论</td></tr>';
+                return;
+            }
+            comments.forEach(comment => {
+                tbody.innerHTML += `
+        <tr>
+            <td>${comment.commentId}</td>
+            <td>${comment.userId}</td>
+            <td>${comment.dishId}</td>
+            <td>${comment.rating}</td>
+            <td class="comment-content">${comment.content || ''}</td>
+            <td>${comment.createdAt ? new Date(comment.createdAt).toLocaleString() : ''}</td>
+            <td class="admin-actions">
+                <button class="btn btn-sm btn-danger" onclick="deleteComment(${comment.commentId})">删除</button>
+            </td>
+        </tr>`;
+            });
+        }
+
+        // 删除评论
+        async function deleteComment(id) {
+            if (!confirm('确定要删除该评论吗？')) return;
+            const res = await fetch(`/api/admin/comments/${id}`, { method: 'DELETE' });
+            const result = await res.json();
+            if (result.success) {
+                loadComments();
+                showMessage(result.message, true);
+            } else {
+                showMessage(result.message || '删除失败', false);
+            }
+        }
+
+        // 重置筛选
+        function resetFilter() {
+            document.getElementById('filterUserId').value = '';
+            document.getElementById('filterDishId').value = '';
+            loadComments();
+        }
+
+        // 消息提示
+        function showMessage(msg, success) {
+            const el = document.getElementById('message');
+            el.textContent = msg;
+            el.style.color = success ? '#28a745' : '#e74c3c';
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 2500);
+        }
+    </script>
+</body>
+
+</html>

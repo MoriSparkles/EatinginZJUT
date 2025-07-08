@@ -1,0 +1,388 @@
+/* 菜品详情页专用样式 */
+/* 包含主卡片、图片展示、评分星级、评论区、表单、响应式等详细注释 */
+
+/* 主容器 */
+.main-container {
+    max-width: 1000px; /* 最大宽度限制 */
+    margin: 120px auto 30px; /* 上下外边距设置 */
+    padding: 0 20px; /* 内边距 */
+}
+
+/* 菜品详情卡片 */
+.dish-detail-card {
+    background: white; /* 白色背景 */
+    border-radius: 20px; /* 圆角 */
+    padding: 30px; /* 内边距 */
+    margin-bottom: 30px; /* 底部外边距 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+/* 菜品头部信息 */
+.dish-header {
+    display: flex; /* 使用Flexbox布局 */
+    gap: 32px; /* 子元素之间的间距 */
+    margin-bottom: 30px; /* 下方外边距 */
+    align-items: flex-start; /* 垂直对齐方式 */
+    flex-wrap: wrap; /* 当空间不足时换行 */
+}
+
+/* 菜品图片 */
+.dish-image {
+    flex-shrink: 0; /* 禁止收缩 */
+    width: 320px; /* 宽度 */
+    max-width: 320px; /* 最大宽度 */
+    min-width: 180px; /* 最小宽度 */
+    aspect-ratio: 1 / 1; /* 保持正方形比例 */
+    height: auto; /* 自动高度 */
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%); /* 渐变背景 */
+    box-shadow: 0 4px 24px 0 rgba(60, 80, 120, 0.10), 0 1.5px 6px 0 rgba(60, 80, 120, 0.08); /* 阴影 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    border-radius: 20px 20px 0 0; /* 圆角 */
+    position: relative; /* 相对定位 */
+    cursor: zoom-in; /* 鼠标指针样式 */
+    transition: box-shadow 0.3s; /* 过渡效果 */
+}
+
+.dish-image img {
+    width: 100%; /* 宽度撑满父元素 */
+    height: 100%; /* 高度撑满父元素 */
+    object-fit: cover; /* 图片裁剪方式 */
+    object-position: center; /* 图片位置 */
+    display: block; /* 显示为块级元素 */
+    border-radius: 20px 20px 0 0; /* 圆角 */
+    box-shadow: 0 0 0 0 rgba(0, 128, 255, 0); /* 初始无阴影 */
+    transition: transform 0.35s cubic-bezier(.4, 2, .6, 1), box-shadow 0.35s; /* 过渡效果 */
+}
+
+/* 菜品信息 */
+.dish-info {
+    flex: 1; /* 占据剩余空间 */
+    min-width: 0; /* 最小宽度 */
+}
+
+.dish-title {
+    font-size: 28px; /* 字体大小 */
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 文字颜色 */
+    margin-bottom: 15px; /* 下方外边距 */
+}
+
+/* 菜品元数据 */
+.dish-meta {
+    display: grid; /* 网格布局 */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自适应列宽 */
+    gap: 15px; /* 格子间距 */
+    margin-bottom: 20px; /* 下方外边距 */
+}
+
+.meta-item {
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 间距 */
+}
+
+.meta-label {
+    font-weight: 600; /* 加粗 */
+    color: #495057; /* 文字颜色 */
+    min-width: 60px; /* 最小宽度 */
+}
+
+.meta-value {
+    color: #6c757d; /* 文字颜色 */
+}
+
+/* 评分部分 */
+.rating-section {
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 20px; /* 间距 */
+    margin-bottom: 20px; /* 下方外边距 */
+}
+
+.rating-display {
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 间距 */
+}
+
+.stars {
+    color: #ffc107; /* 星星颜色 */
+    font-size: 24px; /* 字体大小 */
+}
+
+.rating-text {
+    font-size: 18px; /* 字体大小 */
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 文字颜色 */
+}
+
+.rating-stats {
+    display: flex; /* Flexbox布局 */
+    gap: 20px; /* 间距 */
+    color: #6c757d; /* 文字颜色 */
+}
+
+/* 评论区 */
+.comments-section {
+    background: white; /* 白色背景 */
+    border-radius: 20px; /* 圆角 */
+    padding: 30px; /* 内边距 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+.section-title {
+    font-size: 24px; /* 字体大小 */
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 文字颜色 */
+    margin-bottom: 20px; /* 下方外边距 */
+    display: flex; /* Flexbox布局 */
+    justify-content: space-between; /* 水平两端对齐 */
+    align-items: center; /* 垂直居中 */
+}
+
+.comment-controls {
+    display: flex; /* Flexbox布局 */
+    gap: 20px; /* 间距 */
+    align-items: center; /* 垂直居中 */
+}
+
+.sort-controls {
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 间距 */
+}
+
+.sort-controls label {
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 文字颜色 */
+    font-size: 14px; /* 字体大小 */
+}
+
+.sort-controls select {
+    padding: 8px 12px; /* 内边距 */
+    border: 2px solid #e9ecef; /* 边框 */
+    border-radius: 8px; /* 圆角 */
+    font-size: 14px; /* 字体大小 */
+    background: white; /* 白色背景 */
+    color: #333; /* 文字颜色 */
+}
+
+.sort-controls select:focus {
+    outline: none; /* 移除焦点轮廓 */
+    border-color: #667eea; /* 焦点边框颜色 */
+}
+
+/* 评论表单 */
+.comment-form {
+    background: #f8f9fa; /* 背景颜色 */
+    border-radius: 15px; /* 圆角 */
+    padding: 20px; /* 内边距 */
+    margin-bottom: 30px; /* 下方外边距 */
+}
+
+.form-row {
+    display: grid; /* 网格布局 */
+    grid-template-columns: 1fr 2fr; /* 两列布局 */
+    gap: 20px; /* 格子间距 */
+    margin-bottom: 20px; /* 下方外边距 */
+}
+
+.form-group {
+    display: flex; /* Flexbox布局 */
+    flex-direction: column; /* 垂直排列 */
+    gap: 8px; /* 间距 */
+}
+
+.form-group label {
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 文字颜色 */
+    font-size: 14px; /* 字体大小 */
+}
+
+.form-group select,
+.form-group textarea {
+    padding: 12px; /* 内边距 */
+    border: 2px solid #e9ecef; /* 边框 */
+    border-radius: 8px; /* 圆角 */
+    font-size: 14px; /* 字体大小 */
+    background: white; /* 白色背景 */
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none; /* 移除焦点轮廓 */
+    border-color: #667eea; /* 焦点边框颜色 */
+}
+
+.form-group textarea {
+    resize: vertical; /* 可调整大小 */
+    min-height: 80px; /* 最小高度 */
+}
+
+/* 星级评分样式 */
+.rating-group {
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 15px; /* 间距 */
+}
+
+.star-rating {
+    display: flex; /* Flexbox布局 */
+    gap: 5px; /* 间距 */
+}
+
+.star {
+    font-size: 24px; /* 字体大小 */
+    color: #ddd; /* 文字颜色 */
+    cursor: pointer; /* 鼠标指针样式 */
+    transition: color 0.3s ease; /* 过渡效果 */
+    -webkit-user-select: none; /* 禁用选择 */
+    user-select: none; /* 禁用选择 */
+}
+
+.star:hover,
+.star.active {
+    color: #ffc107; /* 悬停或激活时的颜色 */
+}
+
+.rating-text {
+    color: #6c757d; /* 文字颜色 */
+    font-size: 14px; /* 字体大小 */
+    min-width: 80px; /* 最小宽度 */
+}
+
+.form-actions {
+    display: flex; /* Flexbox布局 */
+    gap: 15px; /* 间距 */
+    justify-content: flex-end; /* 水平右对齐 */
+}
+
+.comments-list {
+    display: flex; /* Flexbox布局 */
+    flex-direction: column; /* 垂直排列 */
+    gap: 20px; /* 间距 */
+}
+
+.comment-item {
+    background: #f8f9fa; /* 背景颜色 */
+    border-radius: 15px; /* 圆角 */
+    padding: 20px; /* 内边距 */
+    border-left: 4px solid #667eea; /* 左边框 */
+    transition: all 0.3s ease; /* 过渡效果 */
+}
+
+.comment-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 悬停时的阴影 */
+    transform: translateY(-2px); /* 悬停时上移 */
+}
+
+.comment-item.own-comment {
+    border-left-color: #28a745; /* 自己评论的颜色 */
+    background: #f8fff9; /* 自己评论的背景颜色 */
+}
+
+.comment-header {
+    display: flex; /* Flexbox布局 */
+    justify-content: space-between; /* 水平两端对齐 */
+    align-items: flex-start; /* 垂直顶部对齐 */
+    margin-bottom: 15px; /* 下方外边距 */
+}
+
+.comment-user-info {
+    flex: 1; /* 占据剩余空间 */
+}
+
+.comment-user {
+    font-size: 16px; /* 字体大小 */
+    font-weight: 600; /* 加粗 */
+    color: #333; /* 文字颜色 */
+    margin-bottom: 5px; /* 下方外边距 */
+}
+
+.comment-date {
+    font-size: 12px; /* 字体大小 */
+    color: #6c757d; /* 文字颜色 */
+}
+
+.comment-rating {
+    color: #ffc107; /* 评分颜色 */
+    font-size: 18px; /* 字体大小 */
+    margin-left: 15px; /* 左侧外边距 */
+}
+
+.comment-content-wrapper {
+    display: flex; /* Flexbox布局 */
+    align-items: flex-start; /* 垂直顶部对齐 */
+    gap: 15px; /* 间距 */
+}
+
+.comment-content {
+    flex: 1; /* 占据剩余空间 */
+    color: #495057; /* 文字颜色 */
+    line-height: 1.6; /* 行高 */
+    font-size: 14px; /* 字体大小 */
+    background: white; /* 白色背景 */
+    padding: 15px; /* 内边距 */
+    border-radius: 8px; /* 圆角 */
+    border: 1px solid #e9ecef; /* 边框 */
+}
+
+.delete-btn {
+    padding: 6px 10px; /* 内边距 */
+    font-size: 12px; /* 字体大小 */
+    border-radius: 6px; /* 圆角 */
+    background-color: #dc3545; /* 背景颜色 */
+    color: white; /* 文字颜色 */
+    border: none; /* 无边框 */
+    cursor: pointer; /* 鼠标指针样式 */
+    transition: all 0.3s ease; /* 过渡效果 */
+    flex-shrink: 0; /* 禁止收缩 */
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    min-width: 32px; /* 最小宽度 */
+    height: 32px; /* 固定高度 */
+}
+
+.delete-btn:hover {
+    background-color: #c82333; /* 悬停时的背景颜色 */
+    transform: scale(1.05); /* 放大效果 */
+}
+
+.delete-icon {
+    font-size: 16px; /* 字体大小 */
+    font-weight: bold; /* 加粗 */
+}
+
+.no-comments {
+    text-align: center; /* 居中文本 */
+    color: #6c757d; /* 文字颜色 */
+    font-size: 16px; /* 字体大小 */
+    padding: 40px 20px; /* 内边距 */
+}
+
+.loading {
+    text-align: center; /* 居中文本 */
+    color: #6c757d; /* 文字颜色 */
+    font-size: 16px; /* 字体大小 */
+    padding: 40px 20px; /* 内边距 */
+}
+
+/* 响应式设计 */
+@media (max-width: 900px) {
+    .dish-header {
+        flex-direction: column; /* 垂直排列 */
+        gap: 20px; /* 间距 */
+        align-items: stretch; /* 拉伸子元素 */
+    }
+
+    .dish-image {
+        width: 100%; /* 宽度撑满 */
+        max-width: 100%; /* 最大宽度 */
+        min-width: 0; /* 最小宽度 */
+        margin: 0 auto; /* 居中 */
+    }
+}

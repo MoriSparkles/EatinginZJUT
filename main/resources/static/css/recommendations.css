@@ -1,0 +1,767 @@
+/* recommendations页面专用样式，控制智能推荐页面整体布局与美化 */
+
+.main-container {
+    max-width: 1200px;
+    margin: 120px auto 20px;
+    padding: 0 20px;
+    min-height: calc(100vh - 140px);
+    /* 页面主容器，居中显示，顶部留出导航栏空间 */
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 50px;
+    /* 顶部标题区，居中显示 */
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+    /* 主标题样式 */
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: #333;
+    /* 副标题样式 */
+}
+
+.recommendation-modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+    /* 左右分栏布局，响应式自适应 */
+}
+
+.module-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    /* 推荐模块卡片样式 */
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    /* 鼠标悬停卡片上浮动效果 */
+}
+
+.module-header {
+    text-align: center;
+    margin-bottom: 30px;
+    /* 卡片顶部标题区 */
+}
+
+.module-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    /* 推荐模块图标 */
+}
+
+.module-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    /* 推荐模块标题 */
+}
+
+.module-description {
+    color: #6c757d;
+    font-size: 16px;
+    /* 推荐模块描述文字 */
+}
+
+.module-content {
+    text-align: center;
+    /* 推荐内容区，居中显示 */
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    /* 大按钮样式 */
+}
+
+.btn-icon {
+    margin-right: 10px;
+    /* 按钮图标间距 */
+}
+
+.ai-input-section {
+    margin-bottom: 20px;
+    /* AI 输入区域样式 */
+}
+
+.ai-input-section textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 16px;
+    resize: vertical;
+    margin-bottom: 15px;
+    font-family: inherit;
+    /* 文本区域样式 */
+}
+
+.ai-input-section textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    /* 文本区域聚焦时样式 */
+}
+
+.result-container {
+    margin-top: 30px;
+    text-align: left;
+    /* 结果容器样式 */
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f8f9fa;
+    /* 结果头部样式 */
+}
+
+.result-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    /* 结果标题样式 */
+}
+
+.dish-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 14px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.07);
+    min-height: 80px;
+    max-height: 120px;
+    /* 菜品卡片样式 */
+}
+
+.dish-content {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    /* 菜品内容区样式 */
+}
+
+.dish-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    /* 菜品图片样式 */
+}
+
+.dish-image img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 90%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    /* 菜品图片实际样式 */
+}
+
+.dish-info {
+    flex: 1;
+    /* 菜品信息区样式 */
+}
+
+.dish-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+    /* 菜品标题样式 */
+}
+
+.dish-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 8px;
+    /* 菜品元信息样式 */
+}
+
+.dish-meta span {
+    background: #e9ecef;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #6c757d;
+    /* 菜品元信息项样式 */
+}
+
+.dish-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #28a745;
+    margin-bottom: 8px;
+    /* 菜品价格样式 */
+}
+
+.dish-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* 菜品评分样式 */
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 16px;
+    /* 星星评分样式 */
+}
+
+.rating-text {
+    color: #6c757d;
+    font-size: 14px;
+    /* 评分文字样式 */
+}
+
+.dish-actions {
+    flex-shrink: 0;
+    /* 菜品操作区样式 */
+}
+
+.dishes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    /* 菜品网格布局样式 */
+}
+
+.dishes-grid .dish-card {
+    margin-bottom: 0;
+    /* 网格中菜品卡片样式 */
+}
+
+.dishes-grid .dish-content {
+    flex-direction: column;
+    text-align: center;
+    /* 网格中菜品内容样式 */
+}
+
+.dishes-grid .dish-image {
+    width: 100px;
+    height: 100px;
+    font-size: 40px;
+    margin-bottom: 15px;
+    /* 网格中菜品图片样式 */
+}
+
+.history-section {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /* 历史记录区域样式 */
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    /* 历史记录标题样式 */
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* 历史记录列表样式 */
+}
+
+.history-item {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    border-left: 4px solid #667eea;
+    /* 单个历史记录项样式 */
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    /* 历史记录头部样式 */
+}
+
+.history-type {
+    font-weight: 600;
+    color: #333;
+    /* 历史记录类型样式 */
+}
+
+.history-time {
+    color: #6c757d;
+    font-size: 14px;
+    /* 历史记录时间样式 */
+}
+
+.history-preference {
+    background: #e3f2fd;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #1976d2;
+    /* 历史记录偏好设置样式 */
+}
+
+.history-dishes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* 历史记录菜品列表样式 */
+}
+
+.history-dish {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+    /* 单个历史记录菜品项样式 */
+}
+
+.dish-name {
+    font-weight: 500;
+    color: #333;
+    /* 菜品名称样式 */
+}
+
+.dish-location {
+    color: #6c757d;
+    font-size: 14px;
+    /* 菜品位置样式 */
+}
+
+.loading {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+    font-size: 16px;
+    /* 加载中提示样式 */
+}
+
+.error-message {
+    text-align: center;
+    padding: 30px;
+    color: #dc3545;
+    font-size: 16px;
+    /* 错误提示样式 */
+}
+
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+    font-size: 16px;
+    /* 无结果提示样式 */
+}
+
+.no-history {
+    text-align: center;
+    padding: 30px;
+    color: #6c757d;
+    font-size: 16px;
+    /* 无历史记录提示样式 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .recommendation-modules {
+        grid-template-columns: 1fr;
+    }
+
+    .dish-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .dish-meta {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .result-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .history-header {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+    }
+
+    .history-dish {
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+    }
+}
+
+/* AI推荐模块样式优化 */
+.ai-input-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    /* AI 输入行样式 */
+}
+
+.ai-input-row .btn {
+    align-self: stretch;
+    width: 90px;
+    min-width: 80px;
+    height: 48px;
+    font-size: 15px;
+    padding: 0 16px;
+    margin-top: 0;
+    border-radius: 8px;
+    box-sizing: border-box;
+    /* AI 输入行按钮样式 */
+}
+
+.ai-input {
+    width: 90%;
+    max-width: 90%;
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+    outline: none;
+    background: #f8f9fa;
+    height: 48px;
+    box-sizing: border-box;
+    /* AI 输入框样式 */
+}
+
+.ai-input:focus {
+    border-color: #667eea;
+    background: #fff;
+    /* AI 输入框聚焦时样式 */
+}
+
+.ai-message {
+    min-height: 22px;
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #e74c3c;
+    font-weight: 500;
+    /* AI 消息提示样式 */
+}
+
+.dish-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    /* 菜品卡片列表样式 */
+}
+
+.ai-dish-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.07);
+    transition: box-shadow 0.2s;
+    border: 1.5px solid #e9ecef;
+    /* AI 菜品卡片样式 */
+}
+
+.ai-dish-card:hover {
+    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.13);
+    border-color: #b3bff7;
+    /* 鼠标悬停 AI 菜品卡片上浮动效果 */
+}
+
+.ai-dish-card .dish-content {
+    padding: 18px 20px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    /* AI 菜品卡片内容区样式 */
+}
+
+.ai-dish-card .dish-image {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    background: linear-gradient(45deg, #e9ecef, #f8f9fa);
+    /* AI 菜品卡片图片样式 */
+}
+
+.ai-dish-card .dish-title {
+    font-size: 19px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 7px;
+    /* AI 菜品卡片标题样式 */
+}
+
+.ai-dish-card .dish-meta span {
+    background: #e9ecef;
+    color: #667eea;
+    font-weight: 500;
+    /* AI 菜品卡片元信息项样式 */
+}
+
+.ai-dish-card .dish-price {
+    color: #28a745;
+    font-weight: 600;
+    margin-bottom: 5px;
+    /* AI 菜品卡片价格样式 */
+}
+
+.ai-dish-card .dish-description {
+    color: #6c757d;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    /* AI 菜品卡片描述文字样式 */
+}
+
+@media (max-width: 768px) {
+    .dish-card-list {
+        gap: 10px;
+    }
+
+    .ai-dish-card .dish-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 10px;
+        gap: 10px;
+        /* 小屏幕下 AI 菜品卡片内容样式 */
+    }
+
+    .ai-input-row {
+        flex-direction: column;
+        gap: 8px;
+        /* 小屏幕下 AI 输入行样式 */
+    }
+}
+
+.recommendation-main {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 25px;
+    height: 500px;
+    /* 推荐模块主区域样式 */
+}
+
+.recommendation-sidebar {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    align-items: center;
+    justify-content: center;
+    /* 推荐模块侧边栏样式 */
+}
+
+.recommendation-result {
+    background: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    min-height: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* 推荐模块结果区域样式 */
+}
+
+.result-header h3 {
+    font-size: 20px;
+    /* 结果标题样式 */
+}
+
+.dish-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px 14px;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.07);
+    /* 菜品卡片样式 */
+}
+
+.dish-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    /* 菜品图片样式 */
+}
+
+.dish-title {
+    font-size: 20px;
+    font-weight: 600;
+    /* 菜品标题样式 */
+}
+
+.dish-meta span {
+    background: #e9ecef;
+    padding: 5px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    /* 菜品元信息项样式 */
+}
+
+.dish-price {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: 600;
+    /* 菜品价格样式 */
+}
+
+.dish-rating {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    /* 菜品评分样式 */
+}
+
+.stars {
+    color: #ffc107;
+    /* 星星评分样式 */
+}
+
+.rating-text {
+    color: #6c757d;
+    /* 评分文字样式 */
+}
+
+.btn-sm {
+    padding: 10px 24px;
+    font-size: 17px;
+    min-width: 100px;
+    border-radius: 10px;
+    /* 小按钮样式 */
+}
+
+@media (max-width: 900px) {
+    .recommendation-main {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        height: auto;
+        overflow: visible;
+    }
+
+    .recommendation-sidebar,
+    .recommendation-result {
+        height: auto;
+        min-height: 0;
+        padding: 14px 6px;
+    }
+
+    .dish-card {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .dish-image {
+        width: 60px;
+        height: 60px;
+        /* 菜品图片样式 */
+    }
+}
+
+.ai-text-result {
+    max-height: 380px;
+    min-height: 80px;
+    overflow-y: auto;
+    font-size: 18px;
+    line-height: 2.0;
+    padding: 18px 22px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.07);
+    color: #222;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    word-break: break-all;
+    /* AI 推荐结果样式 */
+}
+
+.switch-btn-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 18px;
+    /* Tab 切换按钮行样式 */
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 17px;
+    font-weight: 600;
+    color: #888;
+    padding: 10px 32px 8px 32px;
+    border-radius: 12px 12px 0 0;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    /* Tab 按钮样式 */
+}
+
+.tab-btn.active {
+    background: #eef2ff;
+    color: #667eea;
+    border-bottom: 3px solid #667eea;
+    box-shadow: 0 -2px 8px #667eea22;
+    z-index: 2;
+    /* 激活状态的 Tab 按钮样式 */
+}
+
+.tab-switch-row {
+    border-bottom: 1.5px solid #e9ecef;
+    margin-bottom: 24px;
+    width: 100%;
+    justify-content: center;
+    /* Tab 切换区域样式 */
+}

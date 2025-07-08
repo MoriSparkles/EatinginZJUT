@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菜品详情</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/dish-detail.css">
+    <link rel="stylesheet" href="/css/pic-card.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">工大吃喝</div>
+            <nav class="nav-links">
+                <a href="/">首页</a>
+                <a href="/dishes">菜品列表</a>
+                <a href="/recommendations">今天吃什么</a>
+                <div id="authSection">
+                    <!-- 未登录状态 -->
+                    <div id="guestButtons" class="auth-buttons">
+                        <a href="/login" class="btn btn-primary">登录</a>
+                        <a href="/register" class="btn btn-secondary">注册</a>
+                    </div>
+                    <!-- 已登录状态 -->
+                    <div id="userSection" class="user-info" style="display: none;">
+                        <span class="user-name" id="userName"></span>
+                        <a href="/profile" class="btn btn-primary">个人中心</a>
+                        <!--                        <a href="/comments" class="btn btn-primary">我的评论</a>-->
+                        <button class="btn btn-danger" onclick="logout()">退出登录</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div id="dishDetail" class="dish-detail-card">
+            <div class="loading">加载中...</div>
+        </div>
+
+        <div class="comments-section">
+            <div class="section-title">
+                <span>用户评论</span>
+                <div class="comment-controls">
+                    <div class="sort-controls">
+                        <label for="sortSelect">排序方式:</label>
+                        <select id="sortSelect" onchange="sortComments()">
+                            <option value="time-desc">最新评论</option>
+                            <option value="time-asc">最早评论</option>
+                            <option value="rating-desc">评分最高</option>
+                            <option value="rating-asc">评分最低</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="showCommentForm()">写评论</button>
+                </div>
+            </div>
+
+            <div id="commentForm" class="comment-form" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rating">评分 *</label>
+                        <div class="rating-group">
+                            <div class="star-rating" id="starRating">
+                                <span class="star" data-rating="1">☆</span>
+                                <span class="star" data-rating="2">☆</span>
+                                <span class="star" data-rating="3">☆</span>
+                                <span class="star" data-rating="4">☆</span>
+                                <span class="star" data-rating="5">☆</span>
+                            </div>
+                            <div class="rating-text" id="ratingText">请选择评分</div>
+                        </div>
+                        <input type="hidden" id="rating" name="rating" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentText">评论内容 *</label>
+                        <textarea id="commentText" rows="3" placeholder="请分享您的用餐体验..." required></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary" onclick="submitComment()">提交评论</button>
+                    <button class="btn btn-secondary" onclick="hideCommentForm()">取消</button>
+                </div>
+            </div>
+
+            <div id="commentsList" class="comments-list">
+                <div class="loading">加载评论中...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/dish-detail.js"></script>
+</body>
+
+</html>

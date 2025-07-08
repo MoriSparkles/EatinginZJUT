@@ -1,0 +1,142 @@
+/* auth页面专用样式（注册/登录） */
+/* 负责表单、按钮、容器、响应式等布局与美化 */
+
+/* 页面主体样式 */
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 认证区域容器 */
+.auth-container {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    padding: 10px 40px;
+    max-width: 400px;
+    width: 100%;
+    margin: 40px auto; /* 上下外边距固定，左右自动居中 */
+}
+
+/* 表头信息 */
+.auth-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.auth-header h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: #6c757d;
+    font-size: 15px;
+}
+
+/* 表单区域 */
+.auth-form .form-group {
+    margin-bottom: 18px;
+}
+
+.auth-form label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 6px;
+    display: block; /* 独占一行 */
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease; /* 边框颜色过渡动画 */
+}
+
+.auth-form input:focus {
+    outline: none; /* 移除默认焦点轮廓 */
+    border-color: #667eea; /* 获取焦点时边框颜色变化 */
+}
+
+/* 提交按钮 */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* 渐变背景 */
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer; /* 鼠标悬停显示手型 */
+    margin-top: 10px;
+    transition: background 0.2s; /* 背景渐变过渡 */
+}
+
+.auth-btn:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); /* 悬停时渐变反转 */
+}
+
+/* 登录注册切换链接 */
+.auth-link {
+    color: #667eea;
+    text-decoration: none; /* 无下划线 */
+    margin-left: 5px;
+}
+
+/* 返回首页链接 */
+.back-link {
+    display: block; /* 显示为块级元素 */
+    text-align: center;
+    margin-top: 18px;
+    color: #6c757d;
+    text-decoration: none; /* 无下划线 */
+}
+
+/* 密码强度提示 */
+.password-strength {
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.strength-weak {
+    color: #e74c3c; /* 弱密码红色 */
+}
+
+.strength-medium {
+    color: #f39c12; /* 中等密码橙色 */
+}
+
+.strength-strong {
+    color: #27ae60; /* 强密码绿色 */
+}
+
+.system-status-btn:hover {
+    background: rgba(255, 255, 255, 0.3); /* 悬停时更亮背景 */
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 20px;
+        margin: 20px;
+    }
+
+    .auth-header h1 {
+        font-size: 24px;
+    }
+
+    .system-status-btn {
+        top: 10px;
+        right: 10px;
+        padding: 8px 16px;
+        font-size: 12px; /
+    }
+}

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理 - 管理后台</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/profile.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 30px;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(102, 126, 234, 0.10);
+            overflow: hidden;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 14px 10px;
+            text-align: center;
+        }
+
+        .admin-table th {
+            background: linear-gradient(90deg, #667eea 60%, #764ba2 100%);
+            color: #fff;
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .admin-table tr {
+            transition: background 0.2s;
+        }
+
+        .admin-table tbody tr:hover {
+            background: #f3f6fd;
+        }
+
+        .admin-table td {
+            border-bottom: 1.5px solid #f1f1f1;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .admin-actions .btn {
+            margin: 0 3px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.18);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 14px;
+            padding: 32px 40px;
+            min-width: 320px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.13);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1.5px solid #e9ecef;
+            border-radius: 6px;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .modal-actions {
+            text-align: right;
+        }
+
+        .success-message,
+        .error-message {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 18px 8px;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">管理后台</div>
+            <nav class="nav-links">
+                <a href="/">返回首页</a>
+                <a href="/admin/users" class="btn btn-warning">用户管理</a>
+                <a href="/admin/comments" class="btn btn-warning">评论管理</a>
+            </nav>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="admin-header">
+            <h2>用户管理</h2>
+            <button class="btn btn-primary" onclick="showUserModal()">新增用户</button>
+        </div>
+        <div id="message" class="success-message"></div>
+        <table class="admin-table" id="userTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>用户名</th>
+                    <th>手机号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- 用户数据 -->
+            </tbody>
+        </table>
+    </div>
+    <!-- 用户编辑/新增模态框 -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">新增用户</span>
+                <span class="close" onclick="closeUserModal()">&times;</span>
+            </div>
+            <div id="modalMessage" class="error-message"></div>
+            <form id="userForm">
+                <input type="hidden" id="userId">
+                <div class="form-group">
+                    <label for="userName">用户名</label>
+                    <input type="text" id="userName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">手机号</label>
+                    <input type="text" id="userPhone">
+                </div>
+                <div class="form-group" id="passwordGroup">
+                    <label for="userPassword">密码</label>
+                    <input type="password" id="userPassword" minlength="6">
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeUserModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        let users = [];
+        let editingUserId = null;
+
+        // 页面加载
+        window.onload = function () {
+            loadUsers();
+        };
+
+        // 加载用户列表
+        async function loadUsers() {
+            const res = await fetch('/api/admin/users');
+            users = await res.json();
+            renderUserTable();
+        }
+
+        function renderUserTable() {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+            users.forEach(user => {
+                tbody.innerHTML += `
+        <tr>
+            <td>${user.userId}</td>
+            <td>${user.name}</td>
+            <td>${user.phone || ''}</td>
+            <td class="admin-actions">
+                <button class="btn btn-sm btn-primary" onclick="editUser(${user.userId})">编辑</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteUser(${user.userId})">删除</button>
+                <button class="btn btn-sm btn-warning" onclick="resetPassword(${user.userId})">重置密码</button>
+            </td>
+        </tr>`;
+            });
+        }
+
+        // 显示新增用户模态框
+        function showUserModal() {
+            editingUserId = null;
+            document.getElementById('modalTitle').textContent = '新增用户';
+            document.getElementById('userId').value = '';
+            document.getElementById('userName').value = '';
+            document.getElementById('userPhone').value = '';
+            document.getElementById('userPassword').value = '';
+            document.getElementById('passwordGroup').style.display = 'block';
+            document.getElementById('modalMessage').textContent = '';
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        // 显示编辑用户模态框
+        function editUser(id) {
+            const user = users.find(u => u.userId === id);
+            if (!user) return;
+            editingUserId = id;
+            document.getElementById('modalTitle').textContent = '编辑用户';
+            document.getElementById('userId').value = user.userId;
+            document.getElementById('userName').value = user.name;
+            document.getElementById('userPhone').value = user.phone || '';
+            document.getElementById('userPassword').value = '';
+            document.getElementById('passwordGroup').style.display = 'none';
+            document.getElementById('modalMessage').textContent = '';
+            document.getElementById('userModal').style.display = 'flex';
+        }
+
+        // 关闭模态框
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+
+        // 提交表单
+        const userForm = document.getElementById('userForm');
+        userForm.onsubmit = async function (e) {
+            e.preventDefault();
+            const id = document.getElementById('userId').value;
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const password = document.getElementById('userPassword').value;
+            if (!name) {
+                document.getElementById('modalMessage').textContent = '用户名不能为空';
+                return;
+            }
+            if (phone && !/^\d{11}$/.test(phone)) {
+                document.getElementById('modalMessage').textContent = '手机号必须为11位数字';
+                return;
+            }
+            if (!id && (!password || password.length < 6)) {
+                document.getElementById('modalMessage').textContent = '新用户密码不能少于6位';
+                return;
+            }
+            let res, result;
+            if (id) {
+                // 编辑
+                res = await fetch(`/api/admin/users/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone })
+                });
+                result = await res.json();
+            } else {
+                // 新增
+                res = await fetch('/api/admin/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, phone, password })
+                });
+                result = await res.json();
+            }
+            if (result.success) {
+                closeUserModal();
+                loadUsers();
+                showMessage(result.message, true);
+            } else {
+                document.getElementById('modalMessage').textContent = result.message || '操作失败';
+            }
+        };
+
+        // 删除用户
+        async function deleteUser(id) {
+            if (!confirm('确定要删除该用户吗？')) return;
+            const res = await fetch(`/api/admin/users/${id}`, { method: 'DELETE' });
+            const result = await res.json();
+            if (result.success) {
+                loadUsers();
+                showMessage(result.message, true);
+            } else {
+                showMessage(result.message || '删除失败', false);
+            }
+        }
+
+        // 重置密码
+        async function resetPassword(id) {
+            if (!confirm('确定要将该用户密码重置为123456吗？')) return;
+            const res = await fetch(`/api/admin/users/${id}/reset-password`, { method: 'PUT' });
+            const result = await res.json();
+            if (result.success) {
+                showMessage(result.message, true);
+            } else {
+                showMessage(result.message || '重置失败', false);
+            }
+        }
+
+        // 消息提示
+        function showMessage(msg, success) {
+            const el = document.getElementById('message');
+            el.textContent = msg;
+            el.style.color = success ? '#28a745' : '#e74c3c';
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 2500);
+        }
+        // 点击模态框外部关闭
+        window.onclick = function (event) {
+            const modal = document.getElementById('userModal');
+            if (event.target === modal) closeUserModal();
+        };
+    </script>
+</body>
+
+</html>

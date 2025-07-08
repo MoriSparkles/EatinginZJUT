@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工大吃喝</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/pic-card.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">工大吃喝</div>
+            <nav class="nav-links">
+                <a href="/">首页</a>
+                <a href="/dishes">菜品列表</a>
+                <a href="/recommendations">今天吃什么</a>
+                <!--                <a href="/hot-sales">近日热卖</a>-->
+                <div id="authSection">
+                    <!-- 未登录状态 -->
+                    <div id="guestButtons" class="auth-buttons">
+                        <a href="/login" class="btn btn-primary">登录</a>
+                        <a href="/register" class="btn btn-secondary">注册</a>
+                    </div>
+                    <!-- 已登录状态 -->
+                    <div id="userSection" class="user-info" style="display: none;">
+                        <span class="user-name" id="userName"></span>
+                        <a href="/profile" class="btn btn-primary">个人中心</a>
+<!--                        <a href="/comments" class="btn btn-primary">我的评论</a>-->
+                        <div id="adminMenu" class="admin-menu" style="display:none;">
+                            <a href="/admin/users" class="btn btn-warning">用户管理</a>
+                            <a href="/admin/comments" class="btn btn-warning">评论管理</a>
+                        </div>
+                        <button class="btn btn-danger" onclick="logout()">退出登录</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="hero-section">
+            <h2 class="hero-subtitle">这是一个校园餐饮点评系统</h2>
+            <p class="hero-description">
+                我们致力于为校园师生提供一个便捷的食堂菜品评价平台。
+                在这里，您可以浏览各个校区的美食，查看真实用户评价，
+                分享用餐体验，帮助其他同学做出更好的选择。
+            </p>
+        </div>
+
+        <!-- 功能特色 -->
+        <div class="features-section">
+            <!--            <h2 class="section-title">系统特色</h2>-->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🍽️</div>
+                    <h3 class="feature-title">丰富菜品</h3>
+                    <p class="feature-description">
+                        涵盖各个校区、食堂、档口的丰富菜品信息，
+                        让您轻松找到心仪的美食。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⭐</div>
+                    <h3 class="feature-title">真实评价</h3>
+                    <p class="feature-description">
+                        基于真实用户评价的评分系统，
+                        帮助您做出心仪的用餐选择。
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title">互动推荐</h3>
+                    <p class="feature-description">
+                        分享您的用餐体验，查看他人评价，
+                        构建活跃的校园美食社区。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 热门菜品 -->
+        <div class="dishes-section">
+            <div class="dishes-header">
+                <h2 class="dishes-title">热门菜品</h2>
+                <a href="/dishes" class="view-all-btn">查看全部</a>
+            </div>
+            <div id="dishesContainer">
+                <div class="loading">加载中...</div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 工大吃喝-校园餐饮点评系统. 让校园用餐更美好！</p>
+            <p>技术支持：Spring Boot + MyBatis + MySQL</p>
+        </div>
+    </footer>
+
+    <script src="/js/index.js"></script>
+</body>
+
+</html>

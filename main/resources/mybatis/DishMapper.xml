@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.comment.mapper.DishMapper">
+
+    <!-- 动态更新菜品信息，只更新非空字段 -->
+    <update id="update" parameterType="org.comment.entity.Dish">
+        UPDATE mybatis.dish
+        <set>
+            <if test="campus != null and campus != ''">campus = #{campus},</if>
+            <if test="canteen != null and canteen != ''">canteen = #{canteen},</if>
+            <if test="stall != null and stall != ''">stall = #{stall},</if>
+            <if test="dishName != null and dishName != ''">dish_name = #{dishName},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="description != null">description = #{description}</if>
+        </set>
+        WHERE dish_id = #{dishId}
+    </update>
+
+</mapper> 

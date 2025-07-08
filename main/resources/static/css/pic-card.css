@@ -1,0 +1,70 @@
+/* 图片卡片统一样式
+   用于菜品图片展示、悬浮提示、响应式圆角等，提升视觉体验 */
+.dish-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8f8f8;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    cursor: zoom-in;
+}
+
+.dish-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.3s;
+}
+
+.dish-image img:hover {
+    transform: scale(1.05);
+}
+
+.dish-image::after {
+    content: "点击查看大图";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.35);
+    font-size: 13px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    padding: 2px 0;
+}
+
+.dish-image:hover::after {
+    opacity: 1;
+}
+
+/* 信息区分隔线 */
+.dish-content {
+    border-top: 1.5px solid #e6eaf0;
+    padding-top: 18px;
+    margin-top: 0;
+}
+
+/* 响应式优化 */
+@media (max-width: 600px) {
+
+    .dish-image,
+    .dish-image img {
+        border-radius: 28px 28px 0 0;
+    }
+
+    .dish-content {
+        padding-top: 14px;
+    }
+}

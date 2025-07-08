@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/profile.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">工大吃喝</div>
+            <nav class="nav-links">
+                <a href="/">首页</a>
+                <a href="/dishes">菜品列表</a>
+                <a href="/recommendations">今天吃什么</a>
+                <div id="authSection">
+                    <!-- 未登录状态 -->
+                    <div id="guestButtons" class="auth-buttons">
+                        <a href="/login" class="btn btn-primary">登录</a>
+                        <a href="/register" class="btn btn-secondary">注册</a>
+                    </div>
+                    <!-- 已登录状态 -->
+                    <div id="userSection" class="user-info" style="display: none;">
+                        <span class="user-name" id="userName"></span>
+                        <a href="/profile" class="btn btn-primary">个人中心</a>
+                        <!--                        <a href="/comments" class="btn btn-primary">我的评论</a>-->
+                        <button class="btn btn-danger" onclick="logout()">退出登录</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="profile-layout">
+            <!-- 左侧内容区域 -->
+            <div class="left-content">
+                <!-- 用户信息模块 -->
+                <div class="user-info-card">
+                    <div class="user-header">
+                        <div class="avatar">👤</div>
+                        <div class="user-details">
+                            <div class="profile-user-name" id="profileUserName">加载中...</div>
+                            <div class="user-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="totalComments">0</div>
+                                    <div class="stat-label">总评论数</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="averageRating">0.0</div>
+                                    <div class="stat-label">平均评分</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="joinDays">0</div>
+                                    <div class="stat-label">注册天数</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 个人信息模块 -->
+                <div class="profile-card">
+                    <div class="card-title">📝 个人信息</div>
+                    <div id="successMessage" class="success-message"></div>
+                    <div id="errorMessage" class="error-message"></div>
+
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">用户名</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">手机号</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">保存修改</button>
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">重置</button>
+                            <button type="button" class="btn btn-warning" onclick="showPasswordModal()">修改密码</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 右侧内容区域 -->
+            <div class="right-content">
+                <div class="profile-card">
+                    <div class="card-title">
+                        <button class="tab-btn active" id="tab-comments" onclick="showTab('comments')">📊 我的评论</button>
+                        <button class="tab-btn" id="tab-favorites" onclick="showTab('favorites')">❤️ 我的收藏</button>
+                        <button class="tab-btn" id="tab-likes" onclick="showTab('likes')">👍 我的点赞</button>
+                    </div>
+                    <div id="tabPanel-comments" class="tab-panel active">
+                        <div id="recentActivity" class="recent-activity">
+                            <div class="loading">加载中...</div>
+                        </div>
+                    </div>
+                    <div id="tabPanel-favorites" class="tab-panel">
+                        <div id="favoriteList" class="recent-activity">
+                            <div class="loading">加载中...</div>
+                        </div>
+                    </div>
+                    <div id="tabPanel-likes" class="tab-panel">
+                        <div id="likeList" class="recent-activity">
+                            <div class="loading">加载中...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 密码修改模态框 -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🔒 修改密码</h3>
+                <span class="close" onclick="closePasswordModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">当前密码</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">新密码</label>
+                        <input type="password" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">确认新密码</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <div id="passwordMessage" class="modal-message"></div>
+                    <div class="modal-actions">
+                        <button type="submit" class="btn btn-primary">确认修改</button>
+                        <button type="button" class="btn btn-secondary" onclick="closePasswordModal()">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/profile.js"></script>
+</body>
+
+</html>

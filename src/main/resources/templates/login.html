@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户登录 - 校园餐饮点评系统</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">工大吃喝</div>
+            <nav class="nav-links">
+                <a href="/">首页</a>
+                <a href="/dishes">菜品列表</a>
+                <a href="/recommendations">今天吃什么</a>
+                <div id="authSection">
+                    <!-- 未登录状态 -->
+                    <div id="guestButtons" class="auth-buttons">
+                        <a href="/login" class="btn btn-primary">登录</a>
+                        <a href="/register" class="btn btn-secondary">注册</a>
+                    </div>
+                    <!-- 已登录状态 -->
+                    <div id="userSection" class="user-info" style="display: none;">
+                        <span class="user-name" id="userName"></span>
+                        <a href="/profile" class="btn btn-primary">个人中心</a>
+                        <!--                        <a href="/comments" class="btn btn-primary">我的评论</a>-->
+                        <button class="btn btn-danger" onclick="logout()">退出登录</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>欢迎登录</h1>
+        </div>
+
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+        <form id="loginForm" class="auth-form">
+            <div class="login-type-tabs">
+                <button type="button" class="login-type-tab active" id="tabUsername"
+                    onclick="setLoginType('username')">用户名登录</button>
+                <button type="button" class="login-type-tab" id="tabPhone"
+                    onclick="setLoginType('phone')">手机号登录</button>
+            </div>
+            <input type="hidden" name="loginType" id="loginType" value="username">
+            <div class="form-group" id="usernameGroup">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" placeholder="请输入用户名">
+            </div>
+            <div class="form-group" id="phoneGroup" style="display:none;">
+                <label for="phone">手机号</label>
+                <input type="tel" id="phone" name="phone" placeholder="请输入手机号">
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required placeholder="请输入密码">
+            </div>
+            <button type="submit" class="auth-btn" id="loginBtn">
+                <span id="loginBtnText">登录</span>
+            </button>
+        </form>
+
+        <p>还没有账号？<a href="/register" class="auth-link">立即注册</a></p>
+        <a href="/" class="back-link">返回首页</a>
+    </div>
+
+    <script src="/js/login.js"></script>
+</body>
+
+</html>

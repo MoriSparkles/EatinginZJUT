@@ -1,0 +1,424 @@
+/* 通用样式文件
+   负责全局布局、按钮、表单、卡片、模态框、分页、响应式等基础美化 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.main-container {
+    margin-top: 120px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 统一按钮样式 - 确保文字颜色与背景有足够对比度 */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 主要按钮 - 蓝色背景，白色文字 */
+.btn-primary {
+    background: #667eea;
+    color: white;
+    border: 1px solid #667eea;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    border-color: #5a67d8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 次要按钮 - 深灰色背景，白色文字 */
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: 1px solid #6c757d;
+    box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    border-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+}
+
+/* 危险按钮 - 红色背景，白色文字 */
+.btn-danger {
+    background: #dc3545;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    border: 2px solid transparent;
+}
+
+/* 成功按钮 - 绿色背景，白色文字 */
+.btn-success {
+    background: #28a745;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    border: 2px solid transparent;
+}
+
+/* 警告按钮 - 橙色背景，深色文字 */
+.btn-warning {
+    background: #fd7e14;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(253, 126, 20, 0.3);
+    border: 2px solid transparent;
+}
+
+/* 信息按钮 - 蓝色背景，白色文字 */
+.btn-info {
+    background: #17a2b8;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+    border: 2px solid transparent;
+}
+
+/* 浅色按钮 - 浅灰背景，深色文字，深色边框 */
+.btn-light {
+    background: #f8f9fa;
+    color: #495057;
+    border: 2px solid #dee2e6;
+    box-shadow: 0 4px 15px rgba(248, 249, 250, 0.3);
+}
+
+/* 轮廓按钮系列 - 透明背景，彩色边框和文字 */
+.btn-outline-primary {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+    box-shadow: none;
+}
+
+.btn-outline-secondary {
+    background: transparent;
+    color: #495057;
+    border: 2px solid #495057;
+    box-shadow: none;
+}
+
+.btn-outline-danger {
+    background: transparent;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+    box-shadow: none;
+}
+
+.btn-outline-success {
+    background: transparent;
+    color: #28a745;
+    border: 2px solid #28a745;
+    box-shadow: none;
+}
+
+.btn-outline-warning {
+    background: transparent;
+    color: #fd7e14;
+    border: 2px solid #fd7e14;
+    box-shadow: none;
+}
+
+.btn-outline-info {
+    background: transparent;
+    color: #17a2b8;
+    border: 2px solid #17a2b8;
+    box-shadow: none;
+}
+
+/* 导航栏专用按钮 - 半透明背景，白色文字 */
+.btn-nav {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* 按钮禁用状态 */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 小尺寸按钮 */
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 14px;
+    min-width: 80px;
+}
+
+/* 大尺寸按钮 */
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 18px;
+    min-width: 120px;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    outline: none;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #667eea;
+}
+
+/* 消息样式 */
+.error-message {
+    color: #e74c3c;
+    background: #fdf2f2;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.success-message {
+    color: #27ae60;
+    background: #f0f9ff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+/* 加载状态 */
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 卡片样式 */
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: #333;
+}
+
+/* 分页样式 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination button:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.pagination button.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .main-container {
+        margin-top: 100px;
+        padding: 20px 10px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        margin-top: 90px;
+        padding: 15px 5px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+}
+
+/* 移除通用hover效果，已为每个按钮类型单独定义 */
+
+.btn-outline-primary:hover {
+    background: #667eea;
+    color: #ffffff;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d;
+    color: #ffffff;
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+.btn-outline-success:hover {
+    background: #28a745;
+    color: #ffffff;
+}
+
+.btn-outline-warning:hover {
+    background: #fd7e14;
+    color: #ffffff;
+}
+
+.btn-outline-info:hover {
+    background: #17a2b8;
+    color: #ffffff;
+}
+
+.btn-nav:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}

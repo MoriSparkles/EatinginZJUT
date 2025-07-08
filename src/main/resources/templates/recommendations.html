@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今天吃什么</title>
+    <!-- 通用样式、导航栏、智能推荐专用样式 -->
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/recommendations.css">
+    <link rel="stylesheet" href="/css/pic-card.css">
+</head>
+
+<body>
+    <!-- 顶部导航栏：包含Logo、主要页面跳转、登录/注册/个人中心等按钮 -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">工大吃喝</div>
+            <nav class="nav-links">
+                <a href="/">首页</a>
+                <a href="/dishes">菜品列表</a>
+                <a href="/recommendations">今天吃什么</a>
+                <div id="authSection">
+                    <!-- 未登录状态按钮：显示登录/注册 -->
+                    <div id="guestButtons" class="auth-buttons">
+                        <a href="/login" class="btn btn-primary">登录</a>
+                        <a href="/register" class="btn btn-secondary">注册</a>
+                    </div>
+                    <!-- 已登录状态：显示用户名、个人中心、退出按钮 -->
+                    <div id="userSection" class="user-info" style="display: none;">
+                        <span class="user-name" id="userName"></span>
+                        <a href="/profile" class="btn btn-primary">个人中心</a>
+                        <!-- <a href="/comments" class="btn btn-primary">我的评论</a> -->
+                        <button class="btn btn-danger" onclick="logout()">退出登录</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="recommendation-main">
+            <!-- 左侧卡片区：tab切换“随机推荐/问问AI”
+                 通过按钮切换显示不同推荐模块，提升交互体验 -->
+            <div class="recommendation-sidebar">
+                <div class="tab-switch-row" style="display:flex;gap:0;margin-bottom:24px;">
+                    <button id="tabRandom" class="tab-btn active" onclick="switchTab('random')">随机推荐</button>
+                    <button id="tabAI" class="tab-btn" onclick="switchTab('ai')">问问AI</button>
+                </div>
+                <!-- 随机推荐模块：点击按钮后从后端获取随机菜品 -->
+                <div id="randomModule">
+                    <div class="module-header">
+                        <div class="module-icon">🎯</div>
+                        <h2 class="module-title">随机推荐</h2>
+                        <p class="module-description">系统随机为您推荐一道美味菜品</p>
+                    </div>
+                    <div class="ai-input-row">
+                        <button class="btn btn-primary btn-large" style="width:100%;" onclick="generateRandomDish()">
+                            <span class="btn-icon">🎲</span> 开盲盒
+                        </button>
+                    </div>
+                    <div id="randomMessage" class="ai-message"></div>
+                </div>
+                <!-- AI智能推荐模块：输入需求，调用AI接口返回推荐结果 -->
+                <div id="aiModule" style="display:none;">
+                    <div class="module-header">
+                        <div class="module-icon">🤖</div>
+                        <h2 class="module-title">问问AI</h2>
+                        <p class="module-description">输入你的需求，让AI为你推荐菜品</p>
+                    </div>
+                    <div class="ai-input-row">
+                        <input type="text" id="aiInput" class="ai-input" placeholder="如：想吃辣的、想吃素...">
+                        <button class="btn btn-primary btn-large" onclick="aiRecommend()">提交</button>
+                    </div>
+                    <div id="aiMessage" class="ai-message"></div>
+                </div>
+            </div>
+            <!-- 右侧结果区：展示推荐结果卡片或AI文本结果
+                 通过JS动态渲染内容，支持图片预览、跳转详情等 -->
+            <div class="recommendation-result">
+                <div id="resultContainer" class="result-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/recommendations.js"></script>
+</body>
+
+</html>

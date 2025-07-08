@@ -1,0 +1,171 @@
+/* 统一导航栏样式 */
+/* 负责顶部导航栏布局、按钮、用户信息、响应式适配等 */
+
+.header {
+    background: rgba(5, 12, 67, 0.25); /* 半透明背景颜色 */
+    -webkit-backdrop-filter: blur(10px); /* 使用WebKit浏览器的模糊效果 */
+    backdrop-filter: blur(10px); /* 标准模糊效果 */
+    padding: 20px 0; /* 上下内边距 */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* 添加阴影以增强层次感 */
+    position: fixed; /* 固定位置 */
+    top: 0; left: 0; right: 0; /* 定位到页面顶部并扩展至全宽 */
+    z-index: 1000; /* 确保在页面上层显示 */
+}
+
+.nav-container {
+    max-width: 1200px; /* 设置最大宽度 */
+    margin: 0 auto; /* 水平居中 */
+    display: flex; /* 使用Flexbox进行布局 */
+    justify-content: space-between; /* 子元素之间均匀分布 */
+    align-items: center; /* 垂直居中对齐 */
+    padding: 0 20px; /* 左右内边距 */
+    flex-wrap: wrap; /* 允许子元素换行 */
+    gap: 15px; /* 子元素之间的间距 */
+}
+
+.logo {
+    color: white; /* 文字颜色 */
+    font-size: 24px; /* 字体大小 */
+    font-weight: bold; /* 加粗字体 */
+    flex-shrink: 0; /* 防止收缩 */
+}
+
+.nav-links {
+    display: flex; /* Flexbox布局 */
+    gap: 20px; /* 子元素之间的间距 */
+    align-items: center; /* 垂直居中 */
+    flex-wrap: wrap; /* 允许换行 */
+}
+
+.nav-links a:not(.user-name) {
+    color: white; /* 链接颜色 */
+    text-decoration: none; /* 移除下划线 */
+    font-weight: 500; /* 字体加粗程度 */
+    transition: opacity 0.3s ease; /* 过渡效果 */
+    white-space: nowrap; /* 防止文字换行 */
+    padding: 8px 12px; /* 内边距 */
+    border-radius: 6px; /* 圆角 */
+    transition: all 0.3s ease; /* 所有属性的过渡效果 */
+}
+
+.nav-links a:not(.user-name):hover {
+    background: rgba(255, 255, 255, 0.1); /* 鼠标悬停时的背景色 */
+    transform: translateY(-1px); /* 微微向上移动 */
+}
+
+.auth-buttons {
+    display: flex; /* Flexbox布局 */
+    gap: 15px; /* 子元素之间的间距 */
+    flex-wrap: wrap; /* 允许换行 */
+}
+
+.user-info {
+    display: flex; /* Flexbox布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 15px; /* 子元素之间的间距 */
+    color: white; /* 文字颜色 */
+    flex-wrap: wrap; /* 允许换行 */
+    background: rgba(255, 255, 255, 0.15); /* 背景颜色 */
+    padding: 8px 15px; /* 内边距 */
+    border-radius: 25px; /* 大圆角 */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* 边框 */
+    -webkit-backdrop-filter: blur(10px); /* WebKit模糊效果 */
+    backdrop-filter: blur(10px); /* 标准模糊效果 */
+}
+
+.user-name {
+    font-weight: 600; /* 加粗字体 */
+    white-space: nowrap; /* 防止文字换行 */
+    color: #fff; /* 文字颜色 */
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* 文字阴影 */
+    position: relative; /* 相对定位 */
+    padding-left: 25px; /* 左内边距 */
+}
+
+.user-name::before {
+    content: "👤"; /* 插入图标 */
+    position: absolute; /* 绝对定位 */
+    left: 0; top: 50%; /* 定位 */
+    transform: translateY(-50%); /* 垂直居中 */
+    font-size: 16px; /* 图标大小 */
+}
+
+/* 导航栏专用按钮样式 - 继承common.css的.btn基础样式 */
+.nav-container .btn {
+    padding: 8px 16px; /* 内边距 */
+    font-size: 14px; /* 字体大小 */
+    min-width: auto; /* 最小宽度 */
+}
+
+.nav-container .btn-primary {
+    background: rgba(255, 255, 255, 0.2); /* 背景色 */
+    color: #ffffff; /* 文字颜色 */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 边框 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影 */
+    -webkit-backdrop-filter: blur(10px); /* WebKit模糊效果 */
+    backdrop-filter: blur(10px); /* 标准模糊效果 */
+}
+
+.nav-container .btn-primary:hover {
+    background: rgba(255, 255, 255, 0.3); /* 鼠标悬停时的背景色 */
+    transform: translateY(-1px); /* 微微向上移动 */
+}
+
+.nav-container .btn-danger {
+    background: #dc3545; /* 背景色 */
+    color: #ffffff; /* 文字颜色 */
+    border: 1px solid #dc3545; /* 边框 */
+}
+
+.nav-container .btn-danger:hover {
+    background: #c82333; /* 鼠标悬停时的背景色 */
+    border-color: #c82333; /* 边框颜色 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column; /* 改变flex方向 */
+        gap: 15px; /* 子元素之间的间距 */
+    }
+
+    .nav-links {
+        justify-content: center; /* 子元素水平居中 */
+        width: 100%; /* 占满整个容器宽度 */
+    }
+
+    .auth-buttons,
+    .user-info {
+        justify-content: center; /* 子元素水平居中 */
+        width: 100%; /* 占满整个容器宽度 */
+    }
+
+    .logo {
+        font-size: 20px; /* 字体大小调整 */
+    }
+
+    .nav-container .btn {
+        padding: 6px 12px; /* 内边距调整 */
+        font-size: 12px; /* 字体大小调整 */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 10px; /* 减少左右内边距 */
+    }
+
+    .nav-links {
+        gap: 10px; /* 减少子元素之间的间距 */
+    }
+
+    .auth-buttons,
+    .user-info {
+        gap: 8px; /* 减少子元素之间的间距 */
+    }
+
+    .nav-container .btn {
+        padding: 5px 10px; /* 更进一步减少内边距 */
+        font-size: 11px; /* 更小的字体大小 */
+    }
+}

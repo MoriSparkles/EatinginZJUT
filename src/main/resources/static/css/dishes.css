@@ -1,0 +1,257 @@
+/* 菜品列表页面专用样式 */
+/* 主要负责列表筛选区、菜品卡片、分页、表单、响应式布局等美化与交互体验 */
+
+/* 筛选区样式 */
+.filter-section {
+    background: white; /* 背景颜色 */
+    border-radius: 15px; /* 圆角半径 */
+    padding: 25px; /* 内边距 */
+    margin-bottom: 30px; /* 底部外边距 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+.filter-row {
+    display: grid; /* 使用网格布局 */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自适应列宽 */
+    gap: 20px; /* 网格间距 */
+    margin-bottom: 20px; /* 底部外边距 */
+}
+
+.filter-group {
+    display: flex; /* 使用Flexbox进行布局 */
+    flex-direction: column; /* 垂直排列子元素 */
+}
+
+.filter-group label {
+    margin-bottom: 8px; /* 下边距 */
+    font-weight: 500; /* 字体粗细 */
+    color: #333; /* 文字颜色 */
+    font-size: 14px; /* 字体大小 */
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 10px 12px; /* 内边距 */
+    border: 2px solid #e1e5e9; /* 边框 */
+    border-radius: 8px; /* 圆角半径 */
+    font-size: 14px; /* 字体大小 */
+    transition: border-color 0.3s ease; /* 过渡效果 */
+    outline: none; /* 移除默认焦点轮廓 */
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    border-color: #667eea; /* 聚焦时的边框颜色 */
+}
+
+.search-section {
+    display: flex; /* 使用Flexbox进行布局 */
+    gap: 15px; /* 子元素之间的间距 */
+    align-items: end; /* 垂直对齐方式 */
+    flex-wrap: wrap; /* 允许换行 */
+}
+
+.search-input {
+    flex: 1; /* 占满剩余空间 */
+    min-width: 200px; /* 最小宽度 */
+}
+
+/* 使用common.css的统一按钮样式，不在此处覆盖 */
+
+.dishes-grid {
+    display: grid; /* 使用网格布局 */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 自适应列宽 */
+    gap: 25px; /* 网格间距 */
+    margin-bottom: 30px; /* 底部外边距 */
+}
+
+.dish-card {
+    width: 100%; /* 宽度 */
+    min-height: 380px; /* 最小高度 */
+    display: flex; /* 使用Flexbox进行布局 */
+    flex-direction: column; /* 垂直排列子元素 */
+    background: white; /* 背景颜色 */
+    border-radius: 15px; /* 圆角半径 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    transition: transform 0.3s ease; /* 过渡效果 */
+}
+
+.dish-card:hover {
+    transform: translateY(-5px); /* 鼠标悬停时向上移动 */
+}
+
+.dish-image {
+    width: 100%; /* 宽度 */
+    aspect-ratio: 1 / 1; /* 固定宽高比 */
+    height: auto; /* 高度自适应 */
+    min-height: 0; /* 最小高度 */
+    max-height: none; /* 取消最大高度限制 */
+    display: flex; /* 使用Flexbox进行布局 */
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    background: #f8f8f8; /* 背景颜色 */
+    overflow: hidden; /* 隐藏溢出内容 */
+    border-radius: 12px 12px 0 0; /* 圆角半径 */
+    position: relative; /* 相对定位 */
+    cursor: zoom-in; /* 鼠标指针样式 */
+}
+
+.dish-image::after {
+    content: "点击查看大图"; /* 插入文本 */
+    position: absolute; /* 绝对定位 */
+    left: 0; right: 0; bottom: 8px; /* 定位 */
+    color: #fff; /* 文字颜色 */
+    background: rgba(0, 0, 0, 0.35); /* 背景颜色 */
+    font-size: 13px; /* 字体大小 */
+    text-align: center; /* 文本居中 */
+    opacity: 0; /* 初始透明度 */
+    pointer-events: none; /* 不响应鼠标事件 */
+    transition: opacity 0.2s; /* 过渡效果 */
+    padding: 2px 0; /* 内边距 */
+}
+
+.dish-image:hover::after {
+    opacity: 1; /* 鼠标悬停时显示 */
+}
+
+.dish-image img {
+    width: 100%; /* 宽度 */
+    height: 100%; /* 高度 */
+    object-fit: cover; /* 图像填充方式 */
+    object-position: center; /* 图像位置 */
+    display: block; /* 显示模式 */
+    transition: transform 0.3s; /* 过渡效果 */
+}
+
+.dish-image img:hover {
+    transform: scale(1.05); /* 鼠标悬停时放大 */
+}
+
+.dish-content {
+    flex: 1; /* 占满剩余空间 */
+    display: flex; /* 使用Flexbox进行布局 */
+    flex-direction: column; /* 垂直排列子元素 */
+    justify-content: space-between; /* 垂直分布 */
+    padding: 20px; /* 内边距 */
+}
+
+.dish-title {
+    font-size: 18px; /* 标题字体大小 */
+    font-weight: 600; /* 字体粗细 */
+    color: #333; /* 文字颜色 */
+    margin-bottom: 10px; /* 下边距 */
+    word-break: break-all; /* 断词处理 */
+}
+
+.dish-info {
+    color: #6c757d; /* 文字颜色 */
+    font-size: 14px; /* 字体大小 */
+    margin-bottom: 15px; /* 下边距 */
+    line-height: 1.4; /* 行高 */
+}
+
+.dish-location {
+    display: flex; /* 使用Flexbox进行布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 5px; /* 子元素之间的间距 */
+    margin-bottom: 8px; /* 下边距 */
+    flex-wrap: wrap; /* 允许换行 */
+}
+
+.dish-location span {
+    background: #f8f9fa; /* 背景颜色 */
+    padding: 2px 8px; /* 内边距 */
+    border-radius: 12px; /* 圆角半径 */
+    font-size: 12px; /* 字体大小 */
+    color: #6c757d; /* 文字颜色 */
+    margin-bottom: 2px; /* 下边距 */
+}
+
+.dish-rating {
+    display: flex; /* 使用Flexbox进行布局 */
+    align-items: center; /* 垂直居中 */
+    gap: 10px; /* 子元素之间的间距 */
+    margin-bottom: 15px; /* 下边距 */
+}
+
+.stars {
+    color: #ffc107; /* 星级颜色 */
+    font-size: 16px; /* 字体大小 */
+}
+
+.rating-text {
+    color: #6c757d; /* 文字颜色 */
+    font-size: 14px; /* 字体大小 */
+}
+
+.dish-actions {
+    display: flex; /* 使用Flexbox进行布局 */
+    justify-content: flex-end; /* 子元素右对齐 */
+}
+
+.btn-small {
+    padding: 8px 16px; /* 内边距 */
+    font-size: 12px; /* 字体大小 */
+}
+
+.no-dishes {
+    text-align: center; /* 文本居中 */
+    padding: 50px; /* 内边距 */
+    color: #6c757d; /* 文字颜色 */
+    font-size: 18px; /* 字体大小 */
+    background: white; /* 背景颜色 */
+    border-radius: 15px; /* 圆角半径 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+.loading {
+    text-align: center; /* 文本居中 */
+    padding: 50px; /* 内边距 */
+    color: #6c757d; /* 文字颜色 */
+    font-size: 18px; /* 字体大小 */
+    background: white; /* 背景颜色 */
+    border-radius: 15px; /* 圆角半径 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+}
+
+/* 表单行样式 */
+.form-row {
+    display: grid; /* 使用网格布局 */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自适应列宽 */
+    gap: 20px; /* 网格间距 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .filter-row, .form-row {
+        grid-template-columns: 1fr; /* 单列布局 */
+    }
+
+    .search-section {
+        flex-direction: column; /* 改变flex方向 */
+        align-items: stretch; /* 拉伸子元素 */
+    }
+
+    .search-input {
+        min-width: auto; /* 自动最小宽度 */
+    }
+
+    .dishes-grid {
+        grid-template-columns: 1fr; /* 单列布局 */
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-section {
+        padding: 20px; /* 减少内边距 */
+    }
+
+    .dish-content {
+        padding: 15px; /* 减少内边距 */
+    }
+
+    .dish-actions {
+        flex-direction: column; /* 改变flex方向 */
+    }
+}

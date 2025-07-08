@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .test-section h2 {
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .test-form {
+            margin: 15px 0;
+        }
+
+        .test-form input,
+        .test-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .test-form button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .test-form button:hover {
+            background: #5a6fd8;
+        }
+
+        .result {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .success {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .error {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>校园食堂评价系统 - API测试页面</h1>
+    <p>用于测试后端API接口的功能</p>
+
+    <!-- 用户注册测试 -->
+    <div class="test-section">
+        <h2>用户注册测试</h2>
+        <div class="test-form">
+            <input type="text" id="regUsername" placeholder="用户名" value="testuser">
+            <input type="email" id="regEmail" placeholder="邮箱" value="test@example.com">
+            <input type="password" id="regPassword" placeholder="密码" value="123456">
+            <input type="tel" id="regPhone" placeholder="手机号" value="13800138000">
+            <button onclick="testRegister()">测试注册</button>
+        </div>
+        <div id="registerResult" class="result"></div>
+    </div>
+
+    <!-- 用户登录测试 -->
+    <div class="test-section">
+        <h2>用户登录测试</h2>
+        <div class="test-form">
+            <input type="text" id="loginUsername" placeholder="用户名" value="testuser">
+            <input type="password" id="loginPassword" placeholder="密码" value="123456">
+            <button onclick="testLogin()">测试登录</button>
+        </div>
+        <div id="loginResult" class="result"></div>
+    </div>
+
+    <!-- 菜品列表测试 -->
+    <div class="test-section">
+        <h2>菜品列表测试</h2>
+        <div class="test-form">
+            <input type="text" id="searchDish" placeholder="搜索菜品名称">
+            <input type="text" id="searchCampus" placeholder="校区">
+            <input type="text" id="searchCanteen" placeholder="食堂">
+            <button onclick="testGetDishes()">获取菜品列表</button>
+        </div>
+        <div id="dishesResult" class="result"></div>
+    </div>
+
+    <!-- 添加菜品测试 -->
+    <div class="test-section">
+        <h2>添加菜品测试</h2>
+        <div class="test-form">
+            <input type="text" id="dishName" placeholder="菜品名称" value="宫保鸡丁">
+            <input type="text" id="dishCampus" placeholder="校区" value="主校区">
+            <input type="text" id="dishCanteen" placeholder="食堂" value="第一食堂">
+            <input type="text" id="dishStall" placeholder="档口" value="川菜档">
+            <input type="number" id="dishPrice" placeholder="价格" value="15.00" step="0.01">
+            <textarea id="dishDesc" placeholder="描述" rows="3">经典川菜，口感麻辣鲜香</textarea>
+            <button onclick="testAddDish()">添加菜品</button>
+        </div>
+        <div id="addDishResult" class="result"></div>
+    </div>
+
+    <!-- 添加评论测试 -->
+    <div class="test-section">
+        <h2>添加评论测试</h2>
+        <div class="test-form">
+            <input type="number" id="commentDishId" placeholder="菜品ID" value="1">
+            <input type="number" id="commentUserId" placeholder="用户ID" value="1">
+            <input type="number" id="commentRating" placeholder="评分(1-5)" value="5" min="1" max="5">
+            <textarea id="commentText" placeholder="评论内容" rows="3">非常好吃，推荐！</textarea>
+            <button onclick="testAddComment()">添加评论</button>
+        </div>
+        <div id="addCommentResult" class="result"></div>
+    </div>
+
+    <!-- 获取评论测试 -->
+    <div class="test-section">
+        <h2>获取评论测试</h2>
+        <div class="test-form">
+            <input type="number" id="getCommentDishId" placeholder="菜品ID" value="1">
+            <button onclick="testGetComments()">获取菜品评论</button>
+        </div>
+        <div id="getCommentsResult" class="result"></div>
+    </div>
+
+    <script>
+        const BASE_URL = 'http://localhost:8081';
+
+        // 显示结果
+        function showResult(elementId, data, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.textContent = JSON.stringify(data, null, 2);
+            element.className = `result ${isSuccess ? 'success' : 'error'}`;
+        }
+
+        // 测试用户注册
+        async function testRegister() {
+            const data = {
+                name: document.getElementById('regUsername').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value,
+                phone: document.getElementById('regPhone').value
+            };
+
+            try {
+                const response = await fetch(`${BASE_URL}/api/users/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('registerResult', result, result.success);
+            } catch (error) {
+                showResult('registerResult', { error: error.message }, false);
+            }
+        }
+
+        // 测试用户登录
+        async function testLogin() {
+            const data = {
+                username: document.getElementById('loginUsername').value,
+                password: document.getElementById('loginPassword').value
+            };
+
+            try {
+                const response = await fetch(`${BASE_URL}/api/users/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('loginResult', result, result.success);
+            } catch (error) {
+                showResult('loginResult', { error: error.message }, false);
+            }
+        }
+
+        // 测试获取菜品列表
+        async function testGetDishes() {
+            const dishName = document.getElementById('searchDish').value;
+            const campus = document.getElementById('searchCampus').value;
+            const canteen = document.getElementById('searchCanteen').value;
+
+            let url = `${BASE_URL}/api/dishes?`;
+            const params = new URLSearchParams();
+            if (dishName) params.append('dishName', dishName);
+            if (campus) params.append('campus', campus);
+            if (canteen) params.append('canteen', canteen);
+
+            try {
+                const response = await fetch(url + params.toString());
+                const result = await response.json();
+                showResult('dishesResult', result, true);
+            } catch (error) {
+                showResult('dishesResult', { error: error.message }, false);
+            }
+        }
+
+        // 测试添加菜品
+        async function testAddDish() {
+            const data = {
+                dishName: document.getElementById('dishName').value,
+                campus: document.getElementById('dishCampus').value,
+                canteen: document.getElementById('dishCanteen').value,
+                stall: document.getElementById('dishStall').value,
+                price: parseFloat(document.getElementById('dishPrice').value),
+                description: document.getElementById('dishDesc').value
+            };
+
+            try {
+                const response = await fetch(`${BASE_URL}/api/dishes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('addDishResult', result, result.success);
+            } catch (error) {
+                showResult('addDishResult', { error: error.message }, false);
+            }
+        }
+
+        // 测试添加评论
+        async function testAddComment() {
+            const data = {
+                dishId: parseInt(document.getElementById('commentDishId').value),
+                userId: parseInt(document.getElementById('commentUserId').value),
+                rating: parseInt(document.getElementById('commentRating').value),
+                commentText: document.getElementById('commentText').value,
+                commentTime: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch(`${BASE_URL}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('addCommentResult', result, result.success);
+            } catch (error) {
+                showResult('addCommentResult', { error: error.message }, false);
+            }
+        }
+
+        // 测试获取评论
+        async function testGetComments() {
+            const dishId = document.getElementById('getCommentDishId').value;
+
+            try {
+                const response = await fetch(`${BASE_URL}/comments/dish/${dishId}`);
+                const result = await response.json();
+                showResult('getCommentsResult', result, true);
+            } catch (error) {
+                showResult('getCommentsResult', { error: error.message }, false);
+            }
+        }
+
+        // 页面加载时测试连接
+        window.onload = async function () {
+            try {
+                const response = await fetch(`${BASE_URL}/api/users`);
+                if (response.ok) {
+                    console.log('API连接成功');
+                }
+            } catch (error) {
+                console.error('API连接失败:', error);
+            }
+        };
+    </script>
+</body>
+
+</html>

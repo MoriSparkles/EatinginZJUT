@@ -458,49 +458,374 @@ java -jar target/demo3-*.jar
 
 ---
 
-## 系统流程图说明
+## 系统详细设计图表与流程
 
-### 用户评论业务流 (User Comment Flow)
+### 1. 需求分析与功能总览 (Requirement & MindMap)
+
+```mermaid
+mindmap
+  root((校园餐饮<br>系统))
+    用户端
+      浏览与检索
+        菜品列表
+        关键词搜索
+        标签筛选
+        分类筛选
+      互动社区
+        发表评论
+        评分统计
+        点赞/取消
+        收藏菜品
+      智能推荐
+        本地规则推荐
+        热度榜单
+        AI 智能问答
+        个性化建议
+      个人中心
+        资料管理
+        我的足迹
+    管理端
+      资源管理
+        菜品维护
+        标签管理
+      运营管理
+        数据报表
+        用户管理
+        评论审核
+    非功能需求
+      响应速度
+      界面美观
+      推荐精准度
+      系统稳定性
+```
+
+### 2. 系统用例图 (Use Case Diagram)
+
+```mermaid
+usecaseDiagram
+    actor "普通用户" as User
+    actor "系统管理员" as Admin
+    actor "阿里云百炼" as AI
+
+    package "前台业务" {
+        usecase "浏览菜品详情" as UC1
+        usecase "多维度筛选" as UC2
+        usecase "发表评价" as UC3
+        usecase "点赞与收藏" as UC4
+        usecase "请求AI推荐" as UC5
+        usecase "管理个人资料" as UC6
+    }
+    
+    package "后台管理" {
+        usecase "菜品上架/编辑" as UC7
+        usecase "标签体系维护" as UC8
+        usecase "用户管理" as UC9
+        usecase "查看热度统计" as UC10
+    }
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    
+    UC5 ..> AI : API调用
+    
+    Admin --> UC7
+    Admin --> UC8
+    Admin --> UC9
+    Admin --> UC10
+```
+
+### 3. 系统逻辑架构图 (Logical Architecture)
+
+```mermaid
+graph TD
+    subgraph Client[客户端层]
+        Browser[Web 浏览器]
+        Mobile[移动端 H5]
+    end
+    
+    subgraph Gateway[接口接入层]
+        Controller[Spring MVC Controllers]
+        DTO[数据传输对象]
+        Auth[权限校验/Session]
+    end
+    
+    subgraph Service[业务逻辑层]
+        UserService[用户服务]
+        DishService[菜品服务]
+        CommentService[评论服务]
+        RecService[推荐服务]
+        AiService[AI 对接服务]
+    end
+    
+    subgraph Data[数据持久层]
+        MyBatis[Mapper 接口]
+        XML[SQL 映射文件]
+        Entity[实体类]
+    end
+    
+    subgraph Infrastructure[基础设施层]
+        MySQL[(MySQL 8.0)]
+        Aliyun[阿里云百炼 API]
+    end
+    
+    Client --> Gateway
+    Gateway --> Service
+    Service --> Data
+    Service --> Aliyun
+    Data --> MySQL
+```
+
+### 4. 业务流程泳道图 (Business Process Swimlane)
+
+```mermaid
+graph TB
+    subgraph User[用户 User]
+        U1[访问首页] --> U2[输入自然语言需求]
+        U2 --> U3[点击 AI 推荐]
+        U5[查看结果] --> U6[点击菜品详情]
+        U6 --> U7[发表评论/收藏]
+    end
+    
+    subgraph Frontend[前端 Client]
+        F1[展示欢迎页]
+        F2[捕获输入]
+        F3[调用后端API]
+        F4[渲染推荐卡片]
+        U1 -.-> F1
+        U3 -.-> F2
+        F2 --> F3
+        F3 --> F4
+        F4 -.-> U5
+    end
+    
+    subgraph Backend[后端 Server]
+        B1[接收请求]
+        B2{百炼可用?}
+        B3[构建 Prompt 调用大模型]
+        B4[解析 AI 响应]
+        B5[执行本地兜底策略]
+        B6[组装菜品数据]
+        F3 --> B1
+        B1 --> B2
+        B2 -- Yes --> B3
+        B3 --> B4
+        B4 --> B6
+        B2 -- No --> B5
+        B5 --> B6
+        B6 --> F4
+    end
+```
+
+### 5. 功能时序图 (Functional Sequence Diagrams) - 核心模块
+
+#### 模块一：用户登录流程
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant C as AuthController
+    participant S as UserService
+    participant M as UserMapper
+    participant D as DB
+
+    U->>C: POST /login (username, password)
+    C->>S: login(username, password)
+    S->>M: findByUsername(username)
+    M->>D: SELECT * FROM user
+    D-->>M: UserEntity
+    M-->>S: User Object
+    S->>S: 校验密码 (BCrypt/MD5)
+    alt 密码正确
+        S-->>C: 返回 UserInfo
+        C->>C: 创建 Session
+        C-->>U: Login Success (200)
+    else 密码错误
+        S-->>C: throw Exception
+        C-->>U: Login Failed (401)
+    end
+```
+
+#### 模块二：菜品多维筛选流程
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant C as DishController
+    participant S as DishService
+    participant M as DishMapper
+    participant D as DB
+
+    U->>C: GET /dishes?tags=甜,辣&priceRange=1
+    C->>S: searchDishes(tags, price...)
+    S->>S: 解析标签 ID
+    S->>M: selectDishesByConditions
+    M->>D: JOIN dish_tag & tag 查询
+    D-->>M: Result List
+    M-->>S: POJO List
+    S->>C: List<DishDTO>
+    C-->>U: JSON Response
+```
+
+#### 模块三：发表评论流程
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant C as CommentController
+    participant S as CommentService
+    participant M as CommentMapper
+    participant D as DB
+
+    U->>C: POST /comments (dishId, content, rating)
+    C->>C: 检查登录态
+    C->>S: addComment(dto)
+    S->>S: 敏感词/参数校验
+    S->>M: insert(comment)
+    M->>D: INSERT INTO comment
+    D-->>M: Success
+    S->>S: 异步更新菜品总分/热度
+    S-->>C: Created
+    C-->>U: 评论成功
+```
+
+#### 模块四：AI 智能推荐流程
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant C as AskAiController
+    participant S as AskAiService
+    participant A as AliyunBailian
+    participant L as LocalStrategy
+
+    U->>C: 发送需求 "想吃清淡的"
+    C->>S: getRecommendation("想吃清淡的")
+    S->>S: 检查配置
+    alt 启用百炼
+        S->>A: callGeneration(prompt)
+        A-->>S: 返回 JSON (包含推荐菜名、理由)
+        S->>L: 根据菜名反查数据库详情
+    else 未启用/降级
+        S->>L: 关键词匹配(Tag="清淡" OR Descr="清淡")
+        L-->>S: 本地排序结果
+    end
+    S-->>C: 推荐响应对象
+    C-->>U: 展示推荐卡片与相关追问
+```
+
+#### 模块五：管理员数据统计
+```mermaid
+sequenceDiagram
+    participant Admin
+    participant C as AdminController
+    participant S as StatsService
+    participant M as DataMapper
+    
+    Admin->>C: 访问统计页面 /admin/stats
+    C->>S: getDishStats()
+    par 并行查询
+        S->>M: countComments()
+        S->>M: countLikes()
+        S->>M: calculateAvgRatings()
+    end
+    M-->>S: 返回各项指标
+    S->>S: 聚合计算热度值
+    S-->>C: List<DishStatsDTO>
+    C-->>Admin: 渲染图表/表格
+```
+
+### 6. 数据库 E-R 图 (Entity-Relationship Diagram)
+
+```mermaid
+erDiagram
+    USER ||--o{ COMMENT : "publishes"
+    USER ||--o{ FAVORITE : "collects"
+    USER ||--o{ LIKE : "likes"
+    
+    DISH ||--o{ COMMENT : "has"
+    DISH ||--o{ FAVORITE : "is_collected_in"
+    DISH ||--o{ DISH_TAG : "categorized_by"
+    
+    TAG ||--o{ DISH_TAG : "labels"
+    TAG ||--o{ TAG : "parent_tag"
+    
+    COMMENT ||--o{ LIKE : "receives"
+
+    USER {
+        bigint id PK
+        string username
+        string password
+        string role
+    }
+    DISH {
+        bigint id PK
+        string name
+        decimal price
+        string campus
+        string stall
+    }
+    COMMENT {
+        bigint id PK
+        string content
+        int rating
+        timestamp create_time
+    }
+    TAG {
+        bigint id PK
+        string name
+        int level
+        bigint parent_id FK
+    }
+```
+
+### 7. 活动图：管理员菜品管理 (Activity Diagram)
+
+```mermaid
+graph TD
+    Start((开始)) --> Login[管理员登录]
+    Login --> Verify{验证权限}
+    Verify -- 失败 --> End((结束))
+    Verify -- 成功 --> Dash[进入管理后台]
+    Dash --> Select[选择菜品管理]
+    Select --> Action{选择操作}
+    
+    Action -- 新增菜品 --> Input[输入菜品信息]
+    Input --> Img[上传图片]
+    Img --> Valid{校验数据}
+    Valid -- 不通过 --> Input
+    Valid -- 通过 --> Save[保存至数据库]
+    
+    Action -- 编辑菜品 --> Load[加载已有信息]
+    Load --> Edit[修改信息/标签]
+    Edit --> Save
+    
+    Action -- 删除/下架 --> Confirm[确认操作]
+    Confirm --> UpdateStatus[更新记录]
+    
+    Save --> Success[操作成功提示]
+    UpdateStatus --> Success
+    Success --> End
+```
+
+### 8. 系统物理拓扑图 (Physical Topology)
 
 ```mermaid
 graph LR
-    A[用户登录] --> B[浏览菜品详情页]
-    B --> C{是否已评论?}
-    C -- 是 --> D[显示我的评论]
-    C -- 否 --> E[填写评分与内容]
-    E --> F[提交评论表单]
-    F --> G[后端校验参数]
-    G --> H[写入 Comment 表]
-    H --> I[更新菜品评分统计]
-    I --> J[返回成功并在前端追加渲染]
-```
-
-### AI 智能推荐业务流 (AI Recommendation Flow)
-
-```mermaid
-sequenceDiagram
-    participant User as 用户(前端)
-    participant API as 后端接口(API)
-    participant Local as 本地推荐引擎
-    participant Bailian as 阿里云百炼(可选)
+    UserDev[用户终端 PC/Mobile] -- HTTPS --> Nginx[Web 服务器 / 负载均衡]
     
-    User->>API: 输入自然语言需求 (如"胃不舒服")
-    API->>API: 检查百炼配置状态
-    alt 百炼配置可用
-        API->>Bailian: 发送 Prompt
-        Bailian->>API: 返回语义分析与推荐建议
-    else 百炼不可用/失败
-        API->>Local: 降级使用本地匹配
+    subgraph Application_Server
+        Nginx -- 转发 --> Boot[Spring Boot 应用容器]
+        Boot -- JDBC --> MySQL[MySQL 数据库]
     end
-    API->>Local: 结合标签/评分/预算进行加权排序
-    Local->>Local: 生成菜品推荐列表
-    API->>User: 返回推荐摘要 + 菜品卡片 + 后续追问
+    
+    subgraph Cloud_Service
+        Boot -- HTTP/API --> Aliyun[阿里云百炼大模型服务]
+    end
+    
+    subgraph Operations
+        AdminDev[管理员终端] -- HTTPS --> Nginx
+    end
 ```
-
-### 管理员数据流 (Admin Management Data Flow)
-
-- **数据读取**：管理员访问 `/admin` 页面 -> Controller 调用 Service -> Mapper 查询 MySQL -> DO/DTO 转换 -> 返回 JSON -> 前端 JS 渲染表格。
-- **数据更新**：管理员点击编辑/删除 -> 弹窗表单提交 -> `PUT/DELETE` 请求 -> Controller 参数校验 -> Service 业务处理 -> Mapper 更新数据库 -> 返回成功消息 -> 前端局部刷新 DOM。
 
 ---
 

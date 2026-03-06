@@ -464,64 +464,87 @@ java -jar target/demo3-*.jar
 
 ```mermaid
 graph TD
+    %% 根节点
     Root["🏫 校园餐饮系统"]
     
-    %% 用户端模块
-    subgraph UserSide [👤 用户端]
+    %% --- 模块 1: 用户端 ---
+    subgraph UserModule [👤 用户端]
         direction TB
-        U1[🔍 浏览与检索]
-        U1 --> U1a[菜品列表]
-        U1 --> U1b[关键词搜索]
-        U1 --> U1c[标签/分类筛选]
+        U1["🔍 浏览与检索"]
+        U1_1["• 菜品列表"]
+        U1_2["• 关键词搜索"]
+        U1_3["• 标签筛选"]
+        U1_4["• 分类筛选"]
         
-        U2[💬 互动社区]
-        U2 --> U2a[发表评论/评分]
-        U2 --> U2b[点赞/收藏]
+        U2["💬 互动社区"]
+        U2_1["• 发表评论"]
+        U2_2["• 评分统计"]
+        U2_3["• 点赞/取消"]
+        U2_4["• 收藏菜品"]
         
-        U3[🤖 智能推荐]
-        U3 --> U3a[本地规则/热度榜]
-        U3 --> U3b[AI 问答/个性化]
+        U3["🤖 智能推荐"]
+        U3_1["• 本地规则推荐"]
+        U3_2["• 热度榜单"]
+        U3_3["• AI 智能问答"]
+        U3_4["• 个性化建议"]
         
-        U4[👤 个人中心]
-        U4 --> U4a[资料管理]
-        U4 --> U4b[我的足迹]
+        U4["👤 个人中心"]
+        U4_1["• 资料管理"]
+        U4_2["• 我的足迹"]
     end
 
-    %% 管理端模块
-    subgraph AdminSide [⚙️ 管理端]
+    %% --- 模块 2: 管理端 ---
+    subgraph AdminModule [⚙️ 管理端]
         direction TB
-        A1[📦 资源管理]
-        A1 --> A1a[菜品维护]
-        A1 --> A1b[标签管理]
+        A1["📦 资源管理"]
+        A1_1["• 菜品维护"]
+        A1_2["• 标签管理"]
         
-        A2[📊 运营管理]
-        A2 --> A2a[数据报表]
-        A2 --> A2b[用户管理]
-        A2 --> A2c[评论审核]
+        A2["📊 运营管理"]
+        A2_1["• 数据报表"]
+        A2_2["• 用户管理"]
+        A2_3["• 评论审核"]
     end
 
-    %% 非功能需求
-    subgraph NonFunc [🛡️ 非功能需求]
+    %% --- 模块 3: 非功能需求 ---
+    subgraph NonFuncModule [🛡️ 非功能需求]
         direction TB
-        N1[响应速度]
-        N2[界面美观]
-        N3[推荐精准度]
-        N4[系统稳定性]
+        N1["🚀 响应速度"]
+        N2["🎨 界面美观"]
+        N3["🎯 推荐精准度"]
+        N4["🔒 系统稳定性"]
     end
 
-    %% 连接关系
-    Root --> UserSide
-    Root --> AdminSide
-    Root --> NonFunc
+    %% --- 垂直连接逻辑 (关键：强制单列向下) ---
+    Root --> UserModule
+    UserModule ~~~ AdminModule
+    AdminModule ~~~ NonFuncModule
 
-    %% 样式优化
-    classDef root fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef sub fill:#e6f7ff,stroke:#1890ff,stroke-width:1px;
-    classDef leaf fill:#fff,stroke:#ddd,stroke-dasharray: 5 5;
+    %% 内部连接 (使用隐藏线或短连线保持垂直)
+    U1 --> U1_1 & U1_2 & U1_3 & U1_4
+    U2 --> U2_1 & U2_2 & U2_3 & U2_4
+    U3 --> U3_1 & U3_2 & U3_3 & U3_4
+    U4 --> U4_1 & U4_2
     
-    class Root root;
-    class UserSide,AdminSide,NonFunc sub;
-    class U1a,U1b,U1c,U2a,U2b,U3a,U3b,U4a,U4b,A1a,A1b,A2a,A2b,A2c,N1,N2,N3,N4 leaf;
+    A1 --> A1_1 & A1_2
+    A2 --> A2_1 & A2_2 & A2_3
+    
+    N1 ~~~ N2 ~~~ N3 ~~~ N4
+
+    %% --- 手机端优化样式 ---
+    %% 1. 去除子图背景色，减少视觉干扰
+    %% 2. 使用圆角和柔和边框
+    %% 3. 字体大小适配移动端
+    
+    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:16px,font-weight:bold;
+    classDef moduleStyle fill:#f8f9fa,stroke:#dee2e6,stroke-width:1px,stroke-dasharray: 5 5,rx:10px;
+    classDef titleStyle fill:#e3f2fd,stroke:#2196f3,stroke-width:1px,font-weight:bold,rx:5px;
+    classDef itemStyle fill:#ffffff,stroke:#eeeeee,stroke-width:1px,font-size:12px,rx:3px,text-align:left;
+    
+    class Root rootStyle;
+    class UserModule,AdminModule,NonFuncModule moduleStyle;
+    class U1,U2,U3,U4,A1,A2,N1,N2,N3,N4 titleStyle;
+    class U1_1,U1_2,U1_3,U1_4,U2_1,U2_2,U2_3,U2_4,U3_1,U3_2,U3_3,U3_4,U4_1,U4_2,A1_1,A1_2,A2_1,A2_2,A2_3 itemStyle;
 ```
 
 ### 2. 系统用例图 (Use Case Diagram)
@@ -887,6 +910,7 @@ graph LR
 - **统一异常处理**：全局的错误拦截与友好的前端反馈。
 - **模块化设计**：Controller/Service/Mapper 分层清晰，Restful API 风格规范。
 - **安全机制**：基于 Filter/Interceptor 的登录态拦截与管理员权限鉴权。
+
 
 
 

@@ -528,12 +528,12 @@ graph TD
 
 ```mermaid
 graph TD
-    %% 角色定义
+    %% 角色定义 (放在顶部或侧边)
     User("👤 普通用户")
     Admin("🛡️ 系统管理员")
     AI(("☁️ 阿里云百炼"))
 
-    %% 前台业务 (上方)
+    %% 1. 前台业务 (垂直列表)
     subgraph FrontEnd [📱 前台业务]
         direction TB
         UC1[浏览菜品详情]
@@ -544,7 +544,7 @@ graph TD
         UC6[管理个人资料]
     end
 
-    %% 后台管理 (下方)
+    %% 2. 后台管理 (垂直列表，接在前台下面)
     subgraph BackEnd [💻 后台管理]
         direction TB
         UC7[菜品上架/编辑]
@@ -553,24 +553,23 @@ graph TD
         UC10[查看热度统计]
     end
 
-    %% 关系连线
+    %% 连接逻辑 - 垂直流向
     User --> UC1
-    User --> UC2
-    User --> UC3
-    User --> UC4
-    User --> UC5
-    User --> UC6
-
+    UC1 --> UC2 --> UC3 --> UC4 --> UC5 --> UC6
+    
+    %% AI 交互
+    UC5 -.->|API | AI
+    
+    %% 管理员流程
     Admin --> UC7
-    Admin --> UC8
-    Admin --> UC9
-    Admin --> UC10
+    UC7 --> UC8 --> UC9 --> UC10
 
-    UC5 -.->|API 调用 | AI
+    %% 将两个模块垂直串联起来 (可选，为了视觉更紧凑)
+    FrontEnd ~~~ BackEnd
 
-    %% 样式微调
-    style FrontEnd fill:#f0f9ff,stroke:#bae7ff
-    style BackEnd fill:#fff7e6,stroke:#ffe7ba
+    %% 样式：去除子图背景色，减少视觉宽度感
+    style FrontEnd fill:none,stroke:#aaa,stroke-width:1px
+    style BackEnd fill:none,stroke:#aaa,stroke-width:1px
     style AI fill:#f6ffed,stroke:#b7eb8f
 ```
 
@@ -888,5 +887,6 @@ graph LR
 - **统一异常处理**：全局的错误拦截与友好的前端反馈。
 - **模块化设计**：Controller/Service/Mapper 分层清晰，Restful API 风格规范。
 - **安全机制**：基于 Filter/Interceptor 的登录态拦截与管理员权限鉴权。
+
 
 

@@ -462,89 +462,108 @@ java -jar target/demo3-*.jar
 
 ### 1. 需求分析与功能总览 (Requirement & MindMap)
 
+#### 1.1 用户端功能架构
+
 ```mermaid
 graph TD
-    %% 根节点
-    Root["🏫 校园餐饮系统"]
+    UserRoot["👤 用户端功能"]
     
-    %% --- 模块 1: 用户端 ---
-    subgraph UserModule [👤 用户端]
+    subgraph Browse [🔍 浏览与检索]
         direction TB
-        U1["🔍 浏览与检索"]
-        U1_1["• 菜品列表"]
-        U1_2["• 关键词搜索"]
-        U1_3["• 标签筛选"]
-        U1_4["• 分类筛选"]
-        
-        U2["💬 互动社区"]
-        U2_1["• 发表评论"]
-        U2_2["• 评分统计"]
-        U2_3["• 点赞/取消"]
-        U2_4["• 收藏菜品"]
-        
-        U3["🤖 智能推荐"]
-        U3_1["• 本地规则推荐"]
-        U3_2["• 热度榜单"]
-        U3_3["• AI 智能问答"]
-        U3_4["• 个性化建议"]
-        
-        U4["👤 个人中心"]
-        U4_1["• 资料管理"]
-        U4_2["• 我的足迹"]
+        B1["列表展示"]
+        B2["关键词搜索"]
+        B3["标签筛选"]
+        B4["分类筛选"]
+    end
+    
+    subgraph Interact [💬 互动社区]
+        direction TB
+        I1["发表评论"]
+        I2["评分统计"]
+        I3["点赞/取消"]
+        I4["收藏菜品"]
+    end
+    
+    subgraph Rec [🤖 智能推荐]
+        direction TB
+        R1["本地规则推荐"]
+        R2["热度榜单"]
+        R3["AI 智能问答"]
+        R4["个性化建议"]
+    end
+    
+    subgraph Personal [👤 个人中心]
+        direction TB
+        P1["资料管理"]
+        P2["我的足迹"]
     end
 
-    %% --- 模块 2: 管理端 ---
-    subgraph AdminModule [⚙️ 管理端]
+    UserRoot --> Browse
+    UserRoot --> Interact
+    UserRoot --> Rec
+    UserRoot --> Personal
+    
+    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:14px,font-weight:bold,rx:5px;
+    classDef subStyle fill:#e3f2fd,stroke:#2196f3,stroke-width:1px,rx:5px;
+    classDef itemStyle fill:#fff,stroke:#eee,stroke-width:1px,font-size:12px,rx:3px;
+    
+    class UserRoot rootStyle;
+    class Browse,Interact,Rec,Personal subStyle;
+    class B1,B2,B3,B4,I1,I2,I3,I4,R1,R2,R3,R4,P1,P2 itemStyle;
+```
+
+#### 1.2 管理端功能架构
+
+```mermaid
+graph TD
+    AdminRoot["⚙️ 管理端功能"]
+    
+    subgraph Resource [📦 资源管理]
         direction TB
-        A1["📦 资源管理"]
-        A1_1["• 菜品维护"]
-        A1_2["• 标签管理"]
-        
-        A2["📊 运营管理"]
-        A2_1["• 数据报表"]
-        A2_2["• 用户管理"]
-        A2_3["• 评论审核"]
+        Res1["菜品维护"]
+        Res2["标签管理"]
+    end
+    
+    subgraph Operation [📊 运营管理]
+        direction TB
+        Op1["数据报表"]
+        Op2["用户管理"]
+        Op3["评论审核"]
     end
 
-    %% --- 模块 3: 非功能需求 ---
-    subgraph NonFuncModule [🛡️ 非功能需求]
-        direction TB
-        N1["🚀 响应速度"]
-        N2["🎨 界面美观"]
-        N3["🎯 推荐精准度"]
-        N4["🔒 系统稳定性"]
-    end
+    AdminRoot --> Resource
+    AdminRoot --> Operation
+    
+    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:14px,font-weight:bold,rx:5px;
+    classDef subStyle fill:#fff7e6,stroke:#fa8c16,stroke-width:1px,rx:5px;
+    classDef itemStyle fill:#fff,stroke:#eee,stroke-width:1px,font-size:12px,rx:3px;
+    
+    class AdminRoot rootStyle;
+    class Resource,Operation subStyle;
+    class Res1,Res2,Op1,Op2,Op3 itemStyle;
+```
 
-    %% --- 垂直连接逻辑 (关键：强制单列向下) ---
-    Root --> UserModule
-    UserModule ~~~ AdminModule
-    AdminModule ~~~ NonFuncModule
+#### 1.3 非功能需求
 
-    %% 内部连接 (使用隐藏线或短连线保持垂直)
-    U1 --> U1_1 & U1_2 & U1_3 & U1_4
-    U2 --> U2_1 & U2_2 & U2_3 & U2_4
-    U3 --> U3_1 & U3_2 & U3_3 & U3_4
-    U4 --> U4_1 & U4_2
+```mermaid
+graph TD
+    NFRoot["🛡️ 非功能需求"]
     
-    A1 --> A1_1 & A1_2
-    A2 --> A2_1 & A2_2 & A2_3
+    N1["🚀 响应速度"]
+    N2["🎨 界面美观"]
+    N3["🎯 推荐精准度"]
+    N4["🔒 系统稳定性"]
     
-    N1 ~~~ N2 ~~~ N3 ~~~ N4
-
-    %% --- 手机端优化样式 ---
-    %% 1. 去除子图背景色，减少视觉干扰
-    %% 2. 使用圆角和柔和边框
-    %% 3. 字体大小适配移动端
+    NFRoot --> N1
+    NFRoot --> N2
+    NFRoot --> N3
+    NFRoot --> N4
     
-    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:16px,font-weight:bold;
-    classDef moduleStyle fill:#f8f9fa,stroke:#dee2e6,stroke-width:1px,stroke-dasharray: 5 5,rx:10px;
-    classDef titleStyle fill:#e3f2fd,stroke:#2196f3,stroke-width:1px,font-weight:bold,rx:5px;
-    classDef itemStyle fill:#ffffff,stroke:#eeeeee,stroke-width:1px,font-size:12px,rx:3px,text-align:left;
+    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:14px,font-weight:bold,rx:5px;
+    classDef itemStyle fill:#f6ffed,stroke:#b7eb8f,stroke-width:1px,font-size:12px,rx:3px;
     
-    class Root rootStyle;
-    class UserModule,AdminModule,NonFuncModule moduleStyle;
-    class U1,U2,U3,U4,A1,A2,N1,N2,N3,N4 titleStyle;
-    class U1_1,U1_2,U1_3,U1_4,U2_1,U2_2,U2_3,U2_4,U3_1,U3_2,U3_3,U3_4,U4_1,U4_2,A1_1,A1_2,A2_1,A2_2,A2_3 itemStyle;
+    class NFRoot rootStyle;
+    class N1,N2,N3,N4 itemStyle;
 ```
 
 ### 2. 系统用例图 (Use Case Diagram)
@@ -910,6 +929,7 @@ graph LR
 - **统一异常处理**：全局的错误拦截与友好的前端反馈。
 - **模块化设计**：Controller/Service/Mapper 分层清晰，Restful API 风格规范。
 - **安全机制**：基于 Filter/Interceptor 的登录态拦截与管理员权限鉴权。
+
 
 
 

@@ -462,98 +462,116 @@ java -jar target/demo3-*.jar
 
 ### 1. 需求分析与功能总览 (Requirement & MindMap)
 
+```mermaid
 graph TD
-    A["校园餐饮系统"] --> B[用户端]
-    A --> C[管理端]
-    A --> D[非功能需求]
-
-    subgraph 用户端
-        B --> B1[浏览与检索]
-        B1 --> B11[菜品列表]
-        B1 --> B12[关键词搜索]
-        B1 --> B13[标签筛选]
-        B1 --> B14[分类筛选]
-
-        B --> B2[互动社区]
-        B2 --> B21[发表评论]
-        B2 --> B22[评分统计]
-        B2 --> B23[点赞/取消]
-        B2 --> B24[收藏菜品]
-
-        B --> B3[智能推荐]
-        B3 --> B31[本地规则推荐]
-        B3 --> B32[热度榜单]
-        B3 --> B33[AI 智能问答]
-        B3 --> B34[个性化建议]
-
-        B --> B4[个人中心]
-        B4 --> B41[资料管理]
-        B4 --> B42[我的足迹]
+    Root["🏫 校园餐饮系统"]
+    
+    %% 用户端模块
+    subgraph UserSide [👤 用户端]
+        direction TB
+        U1[🔍 浏览与检索]
+        U1 --> U1a[菜品列表]
+        U1 --> U1b[关键词搜索]
+        U1 --> U1c[标签/分类筛选]
+        
+        U2[💬 互动社区]
+        U2 --> U2a[发表评论/评分]
+        U2 --> U2b[点赞/收藏]
+        
+        U3[🤖 智能推荐]
+        U3 --> U3a[本地规则/热度榜]
+        U3 --> U3b[AI 问答/个性化]
+        
+        U4[👤 个人中心]
+        U4 --> U4a[资料管理]
+        U4 --> U4b[我的足迹]
     end
 
-    subgraph 管理端
-        C --> C1[资源管理]
-        C1 --> C11[菜品维护]
-        C1 --> C12[标签管理]
-
-        C --> C2[运营管理]
-        C2 --> C21[数据报表]
-        C2 --> C22[用户管理]
-        C2 --> C23[评论审核]
+    %% 管理端模块
+    subgraph AdminSide [⚙️ 管理端]
+        direction TB
+        A1[📦 资源管理]
+        A1 --> A1a[菜品维护]
+        A1 --> A1b[标签管理]
+        
+        A2[📊 运营管理]
+        A2 --> A2a[数据报表]
+        A2 --> A2b[用户管理]
+        A2 --> A2c[评论审核]
     end
 
-    subgraph 非功能需求
-        D --> D1[响应速度]
-        D --> D2[界面美观]
-        D --> D3[推荐精准度]
-        D --> D4[系统稳定性]
+    %% 非功能需求
+    subgraph NonFunc [🛡️ 非功能需求]
+        direction TB
+        N1[响应速度]
+        N2[界面美观]
+        N3[推荐精准度]
+        N4[系统稳定性]
     end
 
-    classDef root fill:#e6f3ff,stroke:#333;
-    classDef group fill:#f0f8f0,stroke:#555;
-    classDef leaf fill:#fff9e6,stroke:#777;
+    %% 连接关系
+    Root --> UserSide
+    Root --> AdminSide
+    Root --> NonFunc
 
-    class A root
-    class B,C,D,B1,B2,B3,B4,C1,C2 group
-    class B11,B12,B13,B14,B21,B22,B23,B24,B31,B32,B33,B34,B41,B42,C11,C12,C21,C22,C23,D1,D2,D3,D4 leaf
+    %% 样式优化
+    classDef root fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef sub fill:#e6f7ff,stroke:#1890ff,stroke-width:1px;
+    classDef leaf fill:#fff,stroke:#ddd,stroke-dasharray: 5 5;
+    
+    class Root root;
+    class UserSide,AdminSide,NonFunc sub;
+    class U1a,U1b,U1c,U2a,U2b,U3a,U3b,U4a,U4b,A1a,A1b,A2a,A2b,A2c,N1,N2,N3,N4 leaf;
+```
 
 ### 2. 系统用例图 (Use Case Diagram)
 
 ```mermaid
-usecaseDiagram
-    actor "普通用户" as User
-    actor "系统管理员" as Admin
-    actor "阿里云百炼" as AI
+graph TD
+    %% 角色定义
+    User("👤 普通用户")
+    Admin("🛡️ 系统管理员")
+    AI(("☁️ 阿里云百炼"))
 
-    package "前台业务" {
-        usecase "浏览菜品详情" as UC1
-        usecase "多维度筛选" as UC2
-        usecase "发表评价" as UC3
-        usecase "点赞与收藏" as UC4
-        usecase "请求AI推荐" as UC5
-        usecase "管理个人资料" as UC6
-    }
-    
-    package "后台管理" {
-        usecase "菜品上架/编辑" as UC7
-        usecase "标签体系维护" as UC8
-        usecase "用户管理" as UC9
-        usecase "查看热度统计" as UC10
-    }
+    %% 前台业务 (上方)
+    subgraph FrontEnd [📱 前台业务]
+        direction TB
+        UC1[浏览菜品详情]
+        UC2[多维度筛选]
+        UC3[发表评价]
+        UC4[点赞与收藏]
+        UC5[请求AI推荐]
+        UC6[管理个人资料]
+    end
 
+    %% 后台管理 (下方)
+    subgraph BackEnd [💻 后台管理]
+        direction TB
+        UC7[菜品上架/编辑]
+        UC8[标签体系维护]
+        UC9[用户管理]
+        UC10[查看热度统计]
+    end
+
+    %% 关系连线
     User --> UC1
     User --> UC2
     User --> UC3
     User --> UC4
     User --> UC5
     User --> UC6
-    
-    UC5 ..> AI : API调用
-    
+
     Admin --> UC7
     Admin --> UC8
     Admin --> UC9
     Admin --> UC10
+
+    UC5 -.->|API 调用 | AI
+
+    %% 样式微调
+    style FrontEnd fill:#f0f9ff,stroke:#bae7ff
+    style BackEnd fill:#fff7e6,stroke:#ffe7ba
+    style AI fill:#f6ffed,stroke:#b7eb8f
 ```
 
 ### 3. 系统逻辑架构图 (Logical Architecture)
@@ -870,4 +888,5 @@ graph LR
 - **统一异常处理**：全局的错误拦截与友好的前端反馈。
 - **模块化设计**：Controller/Service/Mapper 分层清晰，Restful API 风格规范。
 - **安全机制**：基于 Filter/Interceptor 的登录态拦截与管理员权限鉴权。
+
 

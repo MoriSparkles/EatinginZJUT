@@ -546,24 +546,62 @@ graph TD
 #### 1.3 非功能需求
 
 ```mermaid
-graph TD
-    NFRoot["🛡️ 非功能需求"]
+graph LR
+    UserRoot["用户端功能"]
     
-    N1["🚀 响应速度"]
-    N2["🎨 界面美观"]
-    N3["🎯 推荐精准度"]
-    N4["🔒 系统稳定性"]
+    BrowseTitle["浏览与检索"]
+    subgraph Browse [ ]
+        direction TB
+        B1["列表展示"]
+        B2["关键词搜索"]
+        B3["标签筛选"]
+        B4["分类筛选"]
+    end
     
-    NFRoot --> N1
-    NFRoot --> N2
-    NFRoot --> N3
-    NFRoot --> N4
+    InteractTitle["互动社区"]
+    subgraph Interact [ ]
+        direction TB
+        I1["发表评论"]
+        I2["评分统计"]
+        I3["点赞/取消"]
+        I4["收藏菜品"]
+    end
     
-    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:14px,font-weight:bold,rx:5px;
-    classDef itemStyle fill:#f6ffed,stroke:#b7eb8f,stroke-width:1px,font-size:12px,rx:3px;
+    RecTitle["智能推荐"]
+    subgraph Rec [ ]
+        direction TB
+        R1["本地推荐"]
+        R2["热度榜单"]
+        R3["AI问答"]
+        R4["个性化"]
+    end
     
-    class NFRoot rootStyle;
-    class N1,N2,N3,N4 itemStyle;
+    PersonalTitle["个人中心"]
+    subgraph Personal [ ]
+        direction TB
+        P1["资料管理"]
+        P2["我的足迹"]
+    end
+
+    UserRoot --> BrowseTitle
+    UserRoot --> InteractTitle
+    UserRoot --> RecTitle
+    UserRoot --> PersonalTitle
+    
+    BrowseTitle --> Browse
+    InteractTitle --> Interact
+    RecTitle --> Rec
+    PersonalTitle --> Personal
+    
+    classDef rootStyle fill:#2c3e50,color:#fff,stroke:none,font-size:18px,font-weight:bold,rx:10px,text-align:center;
+    classDef titleStyle fill:transparent,stroke:none,font-size:15px,font-weight:bold,color:#2c3e50,text-align:center;
+    classDef subContainerStyle fill:#f8f9fa,stroke:#4a90e2,stroke-width:3px,rx:12px,text-align:center;
+    classDef itemStyle fill:#ffffff,stroke:#e0e0e0,stroke-width:1px,font-size:13px,rx:8px,color:#2c3e50,width:110px,text-align:center,white-space:nowrap,overflow:hidden,text-overflow:ellipsis;
+    
+    class UserRoot rootStyle;
+    class BrowseTitle,InteractTitle,RecTitle,PersonalTitle titleStyle;
+    class Browse,Interact,Rec,Personal subContainerStyle;
+    class B1,B2,B3,B4,I1,I2,I3,I4,R1,R2,R3,R4,P1,P2 itemStyle;
 ```
 
 ### 2. 系统用例图 (Use Case Diagram)
@@ -929,6 +967,7 @@ graph LR
 - **统一异常处理**：全局的错误拦截与友好的前端反馈。
 - **模块化设计**：Controller/Service/Mapper 分层清晰，Restful API 风格规范。
 - **安全机制**：基于 Filter/Interceptor 的登录态拦截与管理员权限鉴权。
+
 
 
 
